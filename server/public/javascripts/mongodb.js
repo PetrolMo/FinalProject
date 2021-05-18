@@ -16,14 +16,22 @@ const mongoose=require('mongoose')
 //     });
 // }
 
-module.exports = function (){
-    mongoose.connect('mongodb://localhost/softwareteat',
-        { useNewUrlParser: true,useUnifiedTopology: true },
-        function (err){
-            if(err){
-                console.log("数据库连接失败！")
-            }else{
-                console.log("数据库连接成功!")
-            }
-        })
+module.exports = function () {
+  mongoose.connect('mongodb://localhost/softwaretest',
+    {useNewUrlParser: true, useUnifiedTopology: true},)
+
+// 连接成功操作
+  mongoose.connection.on("connected", function () {
+    console.log("MongoDB connected success.")
+  });
+
+// 连接失败操作
+  mongoose.connection.on("error", function () {
+    console.log("MongoDB connected fail.")
+  });
+
+// 连接断开操作
+  mongoose.connection.on("disconnected", function () {
+    console.log("MongoDB connected disconnected.")
+  })
 }
