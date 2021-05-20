@@ -136,6 +136,7 @@ export default defineComponent({
               });
             })
             .catch(err => {
+              that.fullLoading = false
               that.$notify.error({
                 title:'登录失败',
                 message:"用户名或者密码错误，请重新输入。",
