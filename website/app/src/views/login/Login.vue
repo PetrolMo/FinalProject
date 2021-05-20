@@ -122,27 +122,38 @@ export default defineComponent({
             .then(res => {
               that.$store.commit('setToken',res.data.token)
               that.$store.commit('setUserName',res.data.username)
-              console.log(this.$store.state)
-              this.$notify({
-                title: '登录成功',
-                showClose:false,
-                duration:1000,
-                type: 'success',
-                onClose:() => {
-                  setTimeout(() => {
-                    that.$router.replace('/home')
-                  },300)
-                }
-              });
+              setTimeout(() => {
+                this.$notify({
+                  title: '登录成功',
+                  showClose:false,
+                  duration:1000,
+                  type: 'success',
+                  onClose:() => {
+                    that.fullLoading = false
+                    setTimeout(() => {
+                      that.$router.replace('/home')
+                    },300)
+                  }
+                });
+              },2000)
             })
             .catch(err => {
               that.fullLoading = false
-              that.$notify.error({
-                title:'登录失败',
-                message:"用户名或者密码错误，请重新输入。",
-                duration:1500,
-                showClose:false
-              })
+              if(err == 'Error: Network Error'){
+                that.$notify.error({
+                  title:'登录失败',
+                  message:"无法连接服务器，请稍后再试。",
+                  duration:1500,
+                  showClose:false
+                })
+              }else{
+                that.$notify.error({
+                  title:'登录失败',
+                  message:"用户名或者密码错误，请重新输入。",
+                  duration:1500,
+                  showClose:false
+                })
+              }
             })
         }
       });

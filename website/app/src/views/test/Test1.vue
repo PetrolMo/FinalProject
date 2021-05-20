@@ -138,50 +138,50 @@
           :row-class-name="tableRowClassName"
         >
           <el-table-column
-            prop="date"
+            prop="testTime"
             label="日期"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="user"
+            prop="operator"
             label="测试人员"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="a"
+            prop="input.a"
             label="边长a(cm)"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="b"
+            prop="input.b"
             label="边长b(cm)"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="c"
+            prop="input.c"
             label="边长c(cm)"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="type"
+            prop="input.type"
             width="180"
             label="预期输出">
           </el-table-column>
           <el-table-column
-            prop="result"
+            prop="output.result"
             width="180"
             label="实际输出">
           </el-table-column>
           <el-table-column
-            prop="tag"
+            prop="output.tag"
             label="标签"
             :filters="[{ text: '测试通过', value: '测试通过' }, { text: '测试失败', value: '测试失败' },{ text: '待测试', value: '待测试' }]"
             :filter-method="filterTag"
             filter-placement="bottom-end">
             <template #default="scope">
               <el-tag
-                :type="scope.row.state"
-                disable-transitions>{{scope.row.tag}}</el-tag>
+                :type="scope.row.output.state"
+                disable-transitions>{{scope.row.output.tag}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -273,7 +273,7 @@ export default {
         }
       }
       else {
-        const {a, b, c} = t;
+        const {a, b, c} = t.input;
         if (a && b && c) {
           const a1 = Number(a);
           const b1 = Number(b);
@@ -325,14 +325,14 @@ export default {
         event.title = 'submit'
         this.tableDataFromFile.map(value => {
           let result = that.triangleType(value)
-          if(result === value.type){
-            value.tag = '测试通过'
-            value.state = 'success'
+          if(result === value.input.type){
+            value.output.tag = '测试通过'
+            value.output.state = 'success'
           }else{
-            value.tag = '测试失败'
-            value.state = 'danger'
+            value.output.tag = '测试失败'
+            value.output.state = 'danger'
           }
-          value.result = result
+          value.output.result = result
           return value
         })
       }).then(res => {
@@ -382,16 +382,20 @@ export default {
           });
           variables.forEach(value => {
             let record = {
-              a:value[0],
-              b:value[1],
-              c:value[2],
-              type:value[3],
-              result:'',
-              tag:'待测试',
-              state:'',
-              date:createDate,
-              user:that.user,
-              //testId:'001'
+              input:{
+                a:value[0],
+                b:value[1],
+                c:value[2],
+                type:value[3],
+              },
+              output:{
+                result:'',
+                state:'',
+                tag:'待测试'
+              },
+              testTime:createDate,
+              operator:that.$store.state.userInfo.username,
+              testId:date.getTime()
             }
             that.tableDataFromFile.push(record)
           })
@@ -407,7 +411,7 @@ export default {
       target.blur();
     },
     filterTag(value,row){
-      return row.tag === value;
+      return row.output.tag === value;
     },
     filterHandler(value, row, column) {
       const property = column['property'];

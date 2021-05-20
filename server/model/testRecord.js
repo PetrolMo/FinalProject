@@ -5,7 +5,7 @@ const testRecordSchema = new mongo.Schema({
     type:String,
     required:true
   },
-  user:{
+  operator:{
     type:String,
     required:true
   },
@@ -16,7 +16,7 @@ const testRecordSchema = new mongo.Schema({
     type:String
   },
   testTime:{
-    type:String
+    type:String,
   }
 })
 

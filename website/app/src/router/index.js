@@ -197,9 +197,10 @@ router.beforeEach((to,from,next) => {
   }else{
     if(!store.state.token){
       next('/login')
+    }else{
+      next()
     }
   }
-  next()
 })
 
 export default router

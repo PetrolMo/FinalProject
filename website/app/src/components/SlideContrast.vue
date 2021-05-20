@@ -6,10 +6,10 @@
   <div class="labelRight">
     上色后
   </div>
-  <el-carousel indicator-position="inside" :initial-index="0" :height="divH" @change="handleChange" >
+  <el-carousel indicator-position="inside" :initial-index="0" :height="divH" @change="handleChange" v-loading="loading">
     <el-carousel-item v-for="(item,index) in imgs" :key="item" >
-      <figure :style="{'background-image': 'url('+item+')'}" >
-        <div :id="'divisor'+index" class="gray" :style="{'background-image': 'url('+item+')'}"></div>
+      <figure id="figure" :style="{'background-image': 'url('+item+')'}" >
+        <div :id="'divisor'+index" class="gray" :style="{'background-image': ' url('+item+')'}" ></div>
       </figure>
       <input :id="'slider' + index" type="range" min="0" max="100" value="50" v-on:input='moveDivisor'>
     </el-carousel-item>
@@ -28,32 +28,34 @@ export default defineComponent({
     divW:'',
     divH:''
   },
-  watch: {
-    divH: function(newValue) {
-      console.log(newValue);  //可以看到数据已经拿到
-    },
-    divW: function(newValue) {
-      console.log(newValue);  //可以看到数据已经拿到
-    },
-  },
   setup(props,ctx){
     onUpdated(() => {
       const comparison = document.getElementById('comparison')
       comparison.style.width = props.divW
       comparison.style.height = props.divH
     })
+    let divisor = ref()
+    let slider = ref()
     let activeDivisor = ref('divisor0')
     let activeSlider = ref('slider0')
+    let loading = ref(false)
     watch([activeDivisor,activeSlider], (newValue,preValue) => {
       divisor.value = document.getElementById(newValue[0])
       slider.value = document.getElementById(newValue[1])
+    },{
+      deep:true,
     })
     watch(props.imgs,()=>{
       divisor.value = document.getElementById(activeDivisor.value)
       slider.value = document.getElementById(activeSlider.value)
+      loading.value = true
+      const that = this
+      setTimeout(() => {
+        loading.value = false
+      },3000)
+    },{
+      deep:true,
     })
-    let divisor = ref()
-    let slider = ref()
     function moveDivisor(){
       divisor.value.style.width = slider.value.value+"%";
     }
@@ -69,7 +71,8 @@ export default defineComponent({
       activeDivisor,
       divisor,
       slider,
-      activeSlider
+      activeSlider,
+      loading
     }
   }
 })
@@ -78,7 +81,7 @@ export default defineComponent({
 <style>
 .labelLeft{
   position: fixed;
-  top: 30px;
+  top: 20px;
   left: 34px;
   color: white;
   z-index: 9999;
@@ -92,7 +95,7 @@ export default defineComponent({
 }
 .labelRight{
   position: fixed;
-  top: 30px;
+  top: 20px;
   right: 34px;
   z-index: 99999;
   color: black;
@@ -102,7 +105,7 @@ export default defineComponent({
   align-items: center;
   padding-left: 20px;
   width: 100px;
-  background-color: rgba(248,231,28,0.5)
+  background-color: rgba(0,176,255,0.5)
 }
 div#comparison {
   overflow: hidden;
@@ -115,7 +118,7 @@ div#comparison figure {
   font-size: 0;
   width: 90%;
   height: 90%;
-  margin: 30px auto 0;
+  margin: 20px auto 0;
 
 }
 div#comparison figure > img {

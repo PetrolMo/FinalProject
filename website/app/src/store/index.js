@@ -9,7 +9,11 @@ export default createStore({
       username:''
     }
   },
-  getters:{},
+  getters:{
+    bearerToken:state => {
+      return 'Bearer '+ state.token
+    }
+  },
   //同步修改
   mutations:{
     pushRecord(state,record){

@@ -6,7 +6,7 @@ function resolve(dir){
 module.exports = {
   //修改时不进行lint检查
   lintOnSave:false,
-  publicPath:'./',
+  publicPath: '/',
   //webpack一些配置
   configureWebpack:{
     resolve:{

@@ -52,22 +52,23 @@ export default {
     })
     let dialogImageUrl = ref('')
     let dialogVisible = ref(false)
-    const imgs = reactive([
-    ])
+    const imgs = reactive([])
+    const fileList = reactive([])
     return{
       dialogImageUrl,
       dialogVisible,
       divW,
       divH,
       imgs,
+      fileList
     }
   },
   methods:{
     handleRemove(file, fileList) {
-      let index = this.imgs.indexOf(file.url);
+      let index = this.fileList.indexOf(file);
       if (index > -1) {
         this.imgs.splice(index, 1);
-        console.log("删除了:",this.imgs)
+        this.fileList.splice(index,1)
       }
     },
     handlePictureCardPreview(file) {
@@ -78,8 +79,13 @@ export default {
       this.$message.warning(`当前限制上传 9 张图片，本次选择了 ${files.length} 张图片，共选择了 ${files.length + fileList.length} 张图片`);
     },
     handleChange(e){
-      this.imgs.push(e.url)
-      console.log(e.url,this.imgs)
+      this.fileList.push(e)
+      const fileReader = new FileReader()
+      const that = this;
+      fileReader.onloadend = function (r){
+        that.imgs.push(r.target.result)
+      }
+      fileReader.readAsDataURL(e.raw)
     }
   }
 }

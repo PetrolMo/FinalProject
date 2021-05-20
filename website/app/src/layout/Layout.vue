@@ -162,7 +162,7 @@ export default {
     .aside-menu:not(.el-menu--collapse) {
       width: 220px;
       .el-menu-item.is-active {
-        background-color: #D9393B !important;
+        background-color: #00b0ff !important;
       }
     }
     .is-collapse {
