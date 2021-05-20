@@ -15,25 +15,42 @@ router.get('/', function(req, res, next) {
 });
 //注册功能
 router.post('/register',async (req,res) =>{
-  //首先对用户名和密码进行检测是否合法
-  //默认检测成功
-  //如果失败返回 res.send(error(404))
-  const user = await User.create({
-    user:req.body.username,
-    password:req.body.password
+  //首先检查数据库中是否已经存在用户
+  const user = await User.findOne({
+    user:req.body.username
   })
-  res.send(user)
+  if(user){
+    return res.send({
+      message:"用户已存在",
+      type:'hasExisted'
+    })
+  }else{
+    User.create({
+      user:req.body.username,
+      password:req.body.password
+    }).then(_res => {
+      return res.send({
+        message:"注册成功",
+        type:'success'
+      })
+    }).catch(err => {
+      return res.status(420).send({
+        message:"新增用户失败",
+        type:'fail'
+      })
+    })
+  }
 })
 
 //登录功能
 router.post('/login',async (req,res) => {
   const user = await User.findOne({
-
     user:req.body.username
   })
   if(!user) {
-    return res.status(422).send({
-      message:"用户不存在"
+    return res.status(421).send({
+      message:"用户不存在",
+      type:'notExit'
     })
   }
   const isPasswordValid = require('bcryptjs').compareSync(
@@ -41,20 +58,22 @@ router.post('/login',async (req,res) => {
       user.password
   )
   if(!isPasswordValid){
-    return res.status(422).send({
-      message:"密码无效"
+    return res.send({
+      message:"密码无效",
+      type:'wrongPass'
     })
   }
   const token = Token.setToken(user)
       .then(_res => {
         res.send({
-          user,
-          token:_res
+          type:'success',
+          token:_res,
+          username:user.user
         })
       })
       .catch(err => {
         return res.status(423).send({
-          message:'登录失败'
+          message:'获取token失败'
         })
       })
 })

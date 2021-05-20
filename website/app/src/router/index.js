@@ -2,10 +2,23 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Layout from "../layout/Layout";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import store from '@/store/index'
 const routes = [
   {
     path:'/',
-    redirect:'/main'
+    redirect:'/home'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    meta: {title: '登录账号',requireAuth: true},
+    component: () => import('views/login/Login')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {title: '注册账号',requireAuth: true},
+    component: () => import('views/register/Register')
   },
   {
     path:'/main',
@@ -165,7 +178,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   } else {
-    document.title = "默存"
+    document.title = "测试中心"
   }
   next()
 })
@@ -177,6 +190,15 @@ router.afterEach(() => {
 
 //加入路由守卫
 router.beforeEach((to,from,next) => {
+  if(to.path === '/login' || to.path === '/register'){
+    store.commit('setToken','')
+    store.commit('setUserName','')
+    next()
+  }else{
+    if(!store.state.token){
+      next('/login')
+    }
+  }
   next()
 })
 

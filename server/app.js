@@ -50,12 +50,8 @@ app.use(expressJWT({
   algorithms:['HS256']
 }).unless({
   path: [
-      '/register',
-      '/login',
-      '/getOss',
-      '/',
-      '/users',
-    '/uploadTest'
+    '/register',
+    '/login'
   ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
 })
 );

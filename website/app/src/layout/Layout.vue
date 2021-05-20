@@ -46,7 +46,7 @@
             <i :class="[isCollapse ? 'el-icon-s-fold':'el-icon-s-unfold']"/>
           </div>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="9">
           <div class="header-breadcrumb">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$route.matched[0].path === '/main'">
               <el-breadcrumb-item>工作台</el-breadcrumb-item>
@@ -63,6 +63,19 @@
             </el-breadcrumb>
           </div>
         </el-col>
+        <el-col :span="3" :offset="11" class="rightHeader">
+          <el-dropdown>
+            <i class="el-icon-user-solid" style="margin-right: 20px"></i>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button type="text" @click="$router.replace('/login')">退出登录</el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <span>{{userInfo.username}}</span>
+        </el-col>
       </el-row>
     </el-header>
     <el-main :style="defaultHeight">
@@ -76,13 +89,16 @@
 <script>
 import {ref, reactive, toRefs, onBeforeMount, getCurrentInstance} from 'vue'
 import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
 export default {
   name: "Layout",
   setup(props, ctx){
     const router = useRouter()
+    const store = useStore()
+    let userInfo = reactive(store.state.userInfo)
     const state = reactive({
       routers:[],
-      logo:require('@/assets/logo.jpeg'),
+      logo:require('@/assets/logo2.jpg'),
       isCollapse: false,
       asideWidth:'220px',
       defaultHeight:{
@@ -108,7 +124,8 @@ export default {
     return{
       ...toRefs(state),
       onCollapse,
-      onRefresh
+      onRefresh,
+      userInfo
     }
   }
 }
@@ -179,6 +196,10 @@ export default {
   }
   .el-main::-webkit-scrollbar{
     width: 0px;
+  }
+  .rightHeader{
+    //text-align: right;
+    font-size: 14px;
   }
 }
 </style>

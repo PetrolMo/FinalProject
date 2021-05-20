@@ -22,6 +22,6 @@ html, body {
 }
 #nprogress .bar {
   /*自定义进度条颜色*/
-  background: #D9393B !important;
+  background: #29b6f6 !important;
 }
 </style>

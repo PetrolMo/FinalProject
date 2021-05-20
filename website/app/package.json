@@ -32,7 +32,8 @@
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
     "vue-cli-plugin-element-plus": "~0.0.13",
-    "vue-cli-plugin-vue-next": "~0.1.4"
+    "vue-cli-plugin-vue-next": "~0.1.4",
+    "webpack": "^4.42.0"
   },
   "eslintConfig": {
     "root": true,

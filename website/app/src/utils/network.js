@@ -1,5 +1,6 @@
 import axios from "axios";
-import router from "@/router";
+import router from "@/router/index";
+import store from '@/store/index'
 
 //创建实例
 
@@ -10,12 +11,12 @@ const service = axios.create({
 
 //创建发起请求前的拦截器
 service.interceptors.request.use(function (config){
-  // if(config.url === '/login') {
-  //   console.log(config);
-  //   return config
-  // }
-  // const token = store.state.token;
-  // token && (config.headers.Authorization = store.getters.bearerToken);
+  if(config.url === '/login') {
+    console.log(config);
+    return config
+  }
+  const token = store.state.token;
+  token && (config.headers.Authorization = store.getters.bearerToken);
   console.log("这是"+config.url+"请求的请求体内容",config)
   return config;
 },function (error){
@@ -45,8 +46,7 @@ service.interceptors.response.use(response => {
           console.log("hello")
       }
     }
-    console.log(error)
-    return Promise.reject(error.response.data)
+    return Promise.reject(error)
   }
 )
 

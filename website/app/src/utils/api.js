@@ -7,6 +7,13 @@ export function login(data){
     data
   })
 }
+export function register(data){
+  return request({
+    url:'/register',
+    method:'post',
+    data
+  })
+}
 export function users(){
   return request({
     url:'/users',
