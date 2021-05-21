@@ -69,7 +69,7 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>
-                  <el-button type="text" @click="$router.replace('/login')">退出登录</el-button>
+                  <el-button type="text" @click="$router.replace('/login')">{{label}}</el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -95,7 +95,8 @@ export default {
   setup(props, ctx){
     const router = useRouter()
     const store = useStore()
-    let userInfo = reactive(store.state.userInfo)
+    let userInfo = reactive({username:'请先登录！'})
+    let label = ref('登录')
     const state = reactive({
       routers:[],
       logo:require('@/assets/logo2.jpg'),
@@ -108,6 +109,13 @@ export default {
     onBeforeMount(() => {
       state.defaultHeight.height = document.body.clientHeight + 'px'
       state.routers = router.options.routes
+      console.log(userInfo,store.state.userInfo)
+      if(!store.state.userInfo.username){
+        label.value = '登录'
+      }else{
+        userInfo.username = store.state.userInfo.username
+        label.value = '退出登录'
+      }
     })
     const onCollapse = () => {
       if (state.isCollapse) {
@@ -125,7 +133,8 @@ export default {
       ...toRefs(state),
       onCollapse,
       onRefresh,
-      userInfo
+      userInfo,
+      label
     }
   }
 }

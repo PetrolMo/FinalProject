@@ -99,7 +99,7 @@
     </el-row>
     <el-row :gutter="20" class="row2">
       <el-col :span="4">
-        <el-card shadow="never" style="height: 200px">
+        <el-card shadow="never" style="height: 300px">
           <div class="title">
             <h3>上传测试用例:</h3>
           </div>
@@ -202,7 +202,6 @@ export default {
     let user = ref('')
     onMounted(() => {
       user.value = store.state.user
-      console.log(user.value)
     })
 
     const triangle = reactive({
@@ -321,36 +320,42 @@ export default {
         target = event.target.parentNode;
       }
       target.blur();
-      new Promise((resolve,reject) => {
-        event.title = 'submit'
-        this.tableDataFromFile.map(value => {
-          let result = that.triangleType(value)
-          if(result === value.input.type){
-            value.output.tag = '测试通过'
-            value.output.state = 'success'
+      if(that.tableDataFromFile.length === 0 ){
+        that.$notify.error({
+          title: '未上传测试文件',
+        });
+      }else{
+        new Promise((resolve,reject) => {
+          event.title = 'submit'
+          this.tableDataFromFile.map(value => {
+            let result = that.triangleType(value)
+            if(result === value.input.type){
+              value.output.tag = '测试通过'
+              value.output.state = 'success'
+            }else{
+              value.output.tag = '测试失败'
+              value.output.state = 'danger'
+            }
+            value.output.result = result
+            return value
+          })
+        }).then(res => {
+          event.title = ''
+        }).catch(err => console.log(err))
+        uploadTest(that.tableDataFromFile).then(res => {
+          if(res.data[0] === 'insert fail!'){
+            that.$notify.error({
+              title: '上传失败',
+              message: h('i', { style: 'color: teal'}, '测试结果上传数据失败，失败原因:'+res.data[1].message)
+            });
           }else{
-            value.output.tag = '测试失败'
-            value.output.state = 'danger'
+            that.$notify({
+              title: '上传成功',
+              message: h('i', { style: 'color: teal'}, '测试结果已经成功上传到数据库')
+            });
           }
-          value.output.result = result
-          return value
-        })
-      }).then(res => {
-        event.title = ''
-      }).catch(err => console.log(err))
-      uploadTest(that.tableDataFromFile).then(res => {
-        if(res.data[0] === 'insert fail!'){
-          that.$notify.error({
-            title: '上传失败',
-            message: h('i', { style: 'color: teal'}, '测试结果上传数据失败，失败原因:'+res.data[1].message)
-          });
-        }else{
-          that.$notify({
-            title: '上传成功',
-            message: h('i', { style: 'color: teal'}, '测试结果已经成功上传到数据库')
-          });
-        }
-      }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+      }
     },
    handleRemove(file, fileList){
       console.log(file, fileList);

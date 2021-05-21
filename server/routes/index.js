@@ -58,7 +58,7 @@ router.post('/login',async (req,res) => {
       user.password
   )
   if(!isPasswordValid){
-    return res.send({
+    return res.status(422).send({
       message:"密码无效",
       type:'wrongPass'
     })

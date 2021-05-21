@@ -6,7 +6,7 @@
   <div class="labelRight">
     上色后
   </div>
-  <el-carousel indicator-position="inside" :initial-index="0" :height="divH" @change="handleChange" v-loading="loading">
+  <el-carousel indicator-position="none" :initial-index="0" :height="divH" @change="handleChange" v-loading="loading">
     <el-carousel-item v-for="(item,index) in imgs" :key="item" >
       <figure id="figure" :style="{'background-image': 'url('+item+')'}" >
         <div :id="'divisor'+index" class="gray" :style="{'background-image': ' url('+item+')'}" ></div>
@@ -42,6 +42,9 @@ export default defineComponent({
     watch([activeDivisor,activeSlider], (newValue,preValue) => {
       divisor.value = document.getElementById(newValue[0])
       slider.value = document.getElementById(newValue[1])
+      slider.value.value = '50'
+      divisor.value.style.width = '50%'
+
     },{
       deep:true,
     })
@@ -60,8 +63,6 @@ export default defineComponent({
       divisor.value.style.width = slider.value.value+"%";
     }
     function handleChange(active,last){
-      slider.value.value = '50'
-      divisor.value.width = '50%'
       activeDivisor.value = 'divisor' + active
       activeSlider.value = 'slider' + active
     }

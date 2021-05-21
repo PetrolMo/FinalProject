@@ -13,7 +13,7 @@ const testRecordSchema = new mongo.Schema({
     type:Object,
   },
   output:{
-    type:String
+    type:Object
   },
   testTime:{
     type:String,

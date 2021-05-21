@@ -131,7 +131,13 @@ export default defineComponent({
                   onClose:() => {
                     that.fullLoading = false
                     setTimeout(() => {
-                      that.$router.replace('/home')
+                      console.log(that.$route)
+                      if (that.$route.query.redirect) { //如果存在参数
+                        let redirect = that.$route.query.redirect
+                        that.$router.replace(redirect)//则跳转至进入登录页前的路由
+                      } else {
+                        that.$router.replace('/')//否则跳转至首页
+                      }
                     },300)
                   }
                 });

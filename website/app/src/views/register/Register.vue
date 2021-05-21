@@ -14,7 +14,6 @@
             status-icon
             ref="userinforef"
             :rules="rules"
-            autocomplete="on"
           >
             <el-form-item prop="username">
               <el-input
@@ -24,22 +23,23 @@
                 name="username"
                 type="text"
                 tabindex="1"
-                autocomplete="on"
+                autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
                 type="password"
+                auto-complete="new-password"
                 v-model="userInfo.password"
                 placeholder="请输入密码"
                 ref="password"
-                name="password"
                 tabindex="2"
-                autocomplete="off"
+                class="cleanPass"
               ></el-input>
             </el-form-item>
             <el-form-item prop="checkpass">
               <el-input
+                class="cleanPass"
                 type="password"
                 v-model="userInfo.checkpass"
                 placeholder="确认密码"
@@ -179,6 +179,10 @@ export default defineComponent({
     },
     toLogin(){
       this.$router.replace('/login')
+    },
+    toPass(e){
+      e.currentTarget.type = 'password'
+      e.currentTarget.showPassword = true
     }
   }
 })
@@ -215,6 +219,11 @@ export default defineComponent({
   }
   .loginForm{
     margin-top: 50px;
+  }
+  .cleanPass{
+    /deep/ .el-input__inner {
+      -webkit-text-security:disc!important;
+    }
   }
 }
 </style>

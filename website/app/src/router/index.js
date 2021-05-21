@@ -180,7 +180,13 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = "测试中心"
   }
-  next()
+  if(to.path === '/login' || to.path === '/register'){
+    store.commit('setToken','')
+    store.commit('setUserName','')
+    next()
+  }else{
+    next()
+  }
 })
 
 router.afterEach(() => {
@@ -188,19 +194,5 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-//加入路由守卫
-router.beforeEach((to,from,next) => {
-  if(to.path === '/login' || to.path === '/register'){
-    store.commit('setToken','')
-    store.commit('setUserName','')
-    next()
-  }else{
-    if(!store.state.token){
-      next('/login')
-    }else{
-      next()
-    }
-  }
-})
 
 export default router
