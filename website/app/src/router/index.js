@@ -137,6 +137,23 @@ const routes = [
     ]
   },
   {
+    path: '/Interaction',
+    name:'用户交互项目',
+    meta: {title: '用户交互项目',requireAuth: true},
+    icon:'el-icon-s-opportunity',
+    component: Layout,
+    redirect: '/imgSearch',
+    children: [
+      {
+        path: '/imgSearch',
+        name:'图片搜索系统',
+        icon:'el-icon-picture',
+        meta: {title: '图片搜索',requireAuth: true},
+        component:() => import('@/views/Interaction/Interaction')
+      }
+    ]
+  },
+  {
     path: '/progress',
     name:'项目过程管理',
     icon:'el-icon-s-marketing',
@@ -158,7 +175,6 @@ const routes = [
         component:() => import('@/views/process/BusinessCase')
       }
     ]
-    //component:() => import('@/views/process/Process')
   }
 ]
 const router = createRouter({

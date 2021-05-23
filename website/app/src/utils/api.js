@@ -42,7 +42,7 @@ export function getOss(){
   })
 }
 
-export function uploaderImg(data){
+export function uploadImg(data){
   return request({
     url:'/upload',
     method:'post',
@@ -54,5 +54,17 @@ export function uploadTest(data){
     url:'/uploadTest',
     method:'post',
     data
+  })
+}
+export function uploadImg2(data){
+  return request({
+    baseURL:'http://192.168.31.45:5000',
+    url:'/imgUpload',
+    data: data,
+    //async: false,
+    cache: false,
+    contentType: false,
+    enctype: 'multipart/form-data',
+    processData: false,
   })
 }

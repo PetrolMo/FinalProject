@@ -17,7 +17,7 @@
              background-color="#001529" text-color="#fff" active-text-color="#fff"
     >
       <div v-for="menu in routers" :key="menu">
-        <el-menu-item v-if="menu.children && menu.children.length === 1" :index="menu.children[0].path">
+        <el-menu-item v-if="menu.children && menu.children.length === 1 && menu.children[0].name !== '图片搜索系统'" :index="menu.children[0].path">
           <i :class="menu.children[0].icon"></i>
           <template #title>
             {{menu.children[0].name}}
@@ -65,7 +65,7 @@
         </el-col>
         <el-col :span="3" :offset="11" class="rightHeader">
           <el-dropdown>
-            <i class="el-icon-user-solid" style="margin-right: 20px"></i>
+            <i class="el-icon-user-solid" style="margin-right: 10px"></i>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>
@@ -74,7 +74,7 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>{{userInfo.username}}</span>
+          <span>你好！{{userInfo.username}}</span>
         </el-col>
       </el-row>
     </el-header>
