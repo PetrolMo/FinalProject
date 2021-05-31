@@ -58,13 +58,24 @@ export function uploadTest(data){
 }
 export function uploadImg2(data){
   return request({
-    baseURL:'http://192.168.31.45:5000',
+    baseURL:'http://localhost:5000',
     url:'/imgUpload',
-    data: data,
-    //async: false,
+    data,
+    method:'post',
     cache: false,
     contentType: false,
-    enctype: 'multipart/form-data',
+    processData: false,
+    timeout:10000
+  })
+}
+export function colorize(data){
+  return request({
+    baseURL:'http://localhost:5000',
+    url:'/upload',
+    method:'post',
+    data,
+    cache: false,
+    contentType: false,
     processData: false,
   })
 }

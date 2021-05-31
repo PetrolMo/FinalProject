@@ -4,11 +4,14 @@
 
 <script>
 
-export default {
+import * as echarts from 'echarts'
+import {defineComponent, provide} from 'vue'
+export default defineComponent({
   name: 'App',
-  components: {
+  setup(){
+    provide('ec', echarts)
   }
-}
+})
 </script>
 
 <style>

@@ -9,8 +9,8 @@
           <el-card class="box-card">
             <template #header>
               <div class="card-header">
-                <span>上传图片</span>
-                <el-button class="button" type="text">操作按钮</el-button>
+                <span>选择图片</span>
+                <el-button class="button" type="primary" @click="uploadImg">图片上色</el-button>
               </div>
             </template>
             <el-upload
@@ -30,7 +30,7 @@
           </el-card>
         </el-col>
         <el-col :span="12" id="rightCard" >
-          <slide-contrast :imgs="imgs" :div-w='divW' :div-h="divH"></slide-contrast>
+          <slide-contrast :old-images="origin_images" :show="isShow" :new-images="res_images" :div-w='divW' :div-h="divH"></slide-contrast>
         </el-col>
       </el-row>
   </div>
@@ -39,12 +39,15 @@
 <script>
 import {reactive, ref, onMounted} from 'vue'
 import SlideContrast from "components/SlideContrast";
+import {colorize} from "utils/api";
+
 export default {
   name: "ProjectPro",
   components: {SlideContrast},
   setup(props,ctx){
     let divW = ref('')
     let divH = ref('')
+    let isShow = ref('none')
     onMounted(() => {
       const boxCard = document.getElementById('rightCard')
       divW.value = boxCard.offsetWidth + 'px'
@@ -52,22 +55,25 @@ export default {
     })
     let dialogImageUrl = ref('')
     let dialogVisible = ref(false)
-    const imgs = reactive([])
+    const origin_images = reactive([])
+    const res_images = reactive([])
     const fileList = reactive([])
     return{
       dialogImageUrl,
       dialogVisible,
       divW,
       divH,
-      imgs,
-      fileList
+      origin_images,
+      res_images,
+      fileList,
+      isShow
     }
   },
   methods:{
     handleRemove(file, fileList) {
       let index = this.fileList.indexOf(file);
       if (index > -1) {
-        this.imgs.splice(index, 1);
+        this.origin_images.splice(index, 1);
         this.fileList.splice(index,1)
       }
     },
@@ -83,9 +89,22 @@ export default {
       const fileReader = new FileReader()
       const that = this;
       fileReader.onloadend = function (r){
-        that.imgs.push(r.target.result)
+        that.origin_images.push(r.target.result)
       }
       fileReader.readAsDataURL(e.raw)
+    },
+    uploadImg(){
+      const that = this
+      that.isShow = 'block'
+      let target = event.target
+      target = event.target.parentNode
+      target.blur()
+      colorize(JSON.stringify(this.origin_images)).then(res => {
+        console.log(res)
+        that.isShow = 'block'
+      }).catch(err => {
+        //上色失败
+      })
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-<div id="comparison">
+<div id="comparison" :style="{'display':show}">
   <div class="labelLeft">
     上色前
   </div>
@@ -7,9 +7,9 @@
     上色后
   </div>
   <el-carousel indicator-position="none" :initial-index="0" :height="divH" @change="handleChange" v-loading="loading">
-    <el-carousel-item v-for="(item,index) in imgs" :key="item" >
+    <el-carousel-item v-for="(item,index) in oldImages" :key="item" >
       <figure id="figure" :style="{'background-image': 'url('+item+')'}" >
-        <div :id="'divisor'+index" class="gray" :style="{'background-image': ' url('+item+')'}" ></div>
+        <div :id="'divisor'+index" class="gray" :style="{'background-image': ' url('+newImages[index]+')'}" ></div>
       </figure>
       <input :id="'slider' + index" type="range" min="0" max="100" value="50" v-on:input='moveDivisor'>
     </el-carousel-item>
@@ -22,11 +22,18 @@ import {defineComponent , onUpdated, ref, onMounted, watch} from 'vue'
 export default defineComponent({
   name: "SlideContrast",
   props:{
-    imgs:{
+    oldImages:{
       type:Array,
     },
+    newImages:{
+      type:Array
+    },
     divW:'',
-    divH:''
+    divH:'',
+    show:{
+      type:String,
+      default:'none'
+    }
   },
   setup(props,ctx){
     onUpdated(() => {
@@ -48,7 +55,7 @@ export default defineComponent({
     },{
       deep:true,
     })
-    watch(props.imgs,()=>{
+    watch([props.oldImages,props.newImages],()=>{
       divisor.value = document.getElementById(activeDivisor.value)
       slider.value = document.getElementById(activeSlider.value)
       loading.value = true
@@ -184,12 +191,5 @@ input[type=range]:focus::-webkit-slider-thumb {
 }
 input[type=range]:focus::-moz-range-thumb {
   background: rgba(255,255,255,0.5);
-}
-.gray {
-  -webkit-filter: grayscale(100%);
-  -moz-filter: grayscale(100%);
-  -o-filter: grayscale(100%);
-  filter: grayscale(100%);
-
 }
 </style>

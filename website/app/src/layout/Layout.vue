@@ -109,7 +109,6 @@ export default {
     onBeforeMount(() => {
       state.defaultHeight.height = document.body.clientHeight + 'px'
       state.routers = router.options.routes
-      console.log(userInfo,store.state.userInfo)
       if(!store.state.userInfo.username){
         label.value = '登录'
       }else{

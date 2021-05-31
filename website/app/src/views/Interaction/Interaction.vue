@@ -2,11 +2,12 @@
   <div class="main">
     <div class="searchArea">
       <div class="searchBoxByImg searchBox">
-        <form method=post enctype=multipart/form-data>
+        <form method='post' target="test" enctype="multipart/form-data" action="">
           <!--<input data-bind="value: title" type="text" id="inputTask" placeholder="Path to the image" style="width: 150px;">-->
           <input id="openFile" type="file" name="file" style="display: none" @change="chooseImg"/>
-          <input id="submit2" type=submit value ="Search!" @click="fun(event)" style="display: none">
+          <input id="submit2" type='submit' style="display: none">
         </form>
+        <iframe id="iframe" name="test" style="display: none"></iframe>
         <div class="chooseImg">
           <button class="chooseImgBtn" @click="openInput()">选择照片</button>
         </div>
@@ -52,7 +53,7 @@
 </template>
 
 <script>
-import {reactive, ref, defineComponent, onMounted , getCurrentInstance} from 'vue'
+import {reactive, ref, defineComponent, onMounted , getCurrentInstance, watch} from 'vue'
 import {uploadImg2} from "utils/api";
 export default defineComponent({
   name: "Interaction",
@@ -60,16 +61,29 @@ export default defineComponent({
     const instance = getCurrentInstance()
     let image = ref('')
     let rawImage = ref(require('@/assets/rawImg.png'))
-    let form = reactive()
-    let formData = reactive()
-    onMounted(() => {
-      form = document.getElementsByTagName('form')[0]
-      formData = form[0]
-      console.log(formData)
-    })
+    let resImg = reactive([])
     function uploadImg(){
       if(image){
-        instance.type.methods.fun()
+        //instance.type.methods.fun()
+        // const submit2 = document.getElementById('submit2')
+        // submit2.click()
+        const file_input = document.getElementsByTagName('form')[0]
+        const formData = new FormData(file_input)
+        const resBox = document.getElementById('resBox')
+        uploadImg2(formData).then(res => {
+          resImg = Object.values(res.data).map(value => 'http://localhost:5000' + value)
+          resImg.forEach(url => {
+            let result = document.createElement('div')
+            result.classList.add('result')
+            let img = document.createElement('img')
+            img.src = url
+            result.appendChild(img)
+            resBox.appendChild(result)
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }else{
         alert("请先选择图片！")
       }
@@ -122,40 +136,43 @@ export default defineComponent({
       image2.src = ''
       image.value = ''
     }
+    function fun(event){
+      let formData2 = new FormData()
+      formData2.append('files',formData.files[0])
+      event.preventDefault()
+      uploadImg2(formData2, formData.files[0]).then(response => {
+        const resImgs = Object.values(response)
+        //这里返回的是服务器路径下result文件夹里面的内容
+        const baseUrl = ''
+        const resBox = document.getElementById('resBox')
+        const header = resBox.children[0]
+        const resultText = header.children[0]
+        const filter = header.children[1]
+        resultText.style.display = 'block'
+        filter.style.display = 'flex'
+        resImgs.map(url => {
+          url = 'http://192.168.31.45:5000' + url
+          let result = document.createElement('div')
+          result.classList.add('result')
+          let img = document.createElement('img')
+          img.src = url
+          result.appendChild(img)
+          resBox.appendChild(result)
+          return url
+        })
+      }).catch(err => console.log(err))
+    }
     return{
       image,
       rawImage,
       uploadImg,
       chooseImg,
       openInput,
-      removeImg
+      removeImg,
+      fun,
+      resImg
     }
   },
-  methods:{
-    fun(event){
-        uploadImg2(this.formData).then(response => {
-          const resImgs = Object.values(response)
-          //这里返回的是服务器路径下result文件夹里面的内容
-          const baseUrl = ''
-          const resBox = document.getElementById('resBox')
-          const header = resBox.children[0]
-          const resultText = header.children[0]
-          const filter = header.children[1]
-          resultText.style.display = 'block'
-          filter.style.display = 'flex'
-          resImgs.map(url => {
-            url = 'http://192.168.31.45:5000' + url
-            let result = document.createElement('div')
-            result.classList.add('result')
-            let img = document.createElement('img')
-            img.src = url
-            result.appendChild(img)
-            resBox.appendChild(result)
-            return url
-          })
-        })
-    }
-  }
 })
 </script>
 <style scoped>
@@ -170,8 +187,8 @@ body{
 .main{
   width: 90%;
   margin: 0 auto;
-  background: linear-gradient(to bottom, #00F5A0, #00D9F5);
   overflow:hidden;
+  background: linear-gradient(to bottom, #757F9A, #D7DDE8);
 }
 .searchArea{
   width: 30%;
@@ -304,7 +321,7 @@ body{
 .resultBox .header{
   width: 96%;
   height: 60px;
-  background-color: #2c80c5;
+  background-color: rgb(152,140,125);
   position: absolute;
   top:40px;
   left: -5%;
