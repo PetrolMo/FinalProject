@@ -1,32 +1,28 @@
 <template>
 <div id="comparison" :style="{'display':show}">
   <div class="labelLeft">
-    上色前
-  </div>
-  <div class="labelRight">
     上色后
   </div>
-  <el-carousel indicator-position="none" :initial-index="0" :height="divH" @change="handleChange" v-loading="loading">
-    <el-carousel-item v-for="(item,index) in oldImages" :key="item" >
-      <figure id="figure" :style="{'background-image': 'url('+item+')'}" >
-        <div :id="'divisor'+index" class="gray" :style="{'background-image': ' url('+newImages[index]+')'}" ></div>
+  <div class="labelRight">
+    上色前
+  </div>
+      <figure id="figure" :style="{'background-image': 'url('+oldImages+')'}" >
+        <div id="divisor" class="gray" :style="{'background-image': ' url('+newImages+')'}" ></div>
       </figure>
-      <input :id="'slider' + index" type="range" min="0" max="100" value="50" v-on:input='moveDivisor'>
-    </el-carousel-item>
-  </el-carousel>
+      <input id="slider" type="range" min="0" max="100" value="50" v-on:input='moveDivisor'>
 </div>
 </template>
 
 <script>
-import {defineComponent , onUpdated, ref, onMounted, watch} from 'vue'
+import {defineComponent , onUpdated, ref, watch} from 'vue'
 export default defineComponent({
   name: "SlideContrast",
   props:{
     oldImages:{
-      type:Array,
+      type:String,
     },
     newImages:{
-      type:Array
+      type:String
     },
     divW:'',
     divH:'',
@@ -38,48 +34,29 @@ export default defineComponent({
   setup(props,ctx){
     onUpdated(() => {
       const comparison = document.getElementById('comparison')
+      const figure = comparison.children[2]
+      const div = figure.children[0]
+      figure.style.backgroundSize ='auto 100%'
+     // div.style.backgroundSize = '100% auto'
       comparison.style.width = props.divW
       comparison.style.height = props.divH
+      divisor.value = document.getElementById('divisor')
+      slider.value = document.getElementById('slider')
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+      },2000)
     })
     let divisor = ref()
     let slider = ref()
-    let activeDivisor = ref('divisor0')
-    let activeSlider = ref('slider0')
     let loading = ref(false)
-    watch([activeDivisor,activeSlider], (newValue,preValue) => {
-      divisor.value = document.getElementById(newValue[0])
-      slider.value = document.getElementById(newValue[1])
-      slider.value.value = '50'
-      divisor.value.style.width = '50%'
-
-    },{
-      deep:true,
-    })
-    watch([props.oldImages,props.newImages],()=>{
-      divisor.value = document.getElementById(activeDivisor.value)
-      slider.value = document.getElementById(activeSlider.value)
-      loading.value = true
-      const that = this
-      setTimeout(() => {
-        loading.value = false
-      },3000)
-    },{
-      deep:true,
-    })
     function moveDivisor(){
       divisor.value.style.width = slider.value.value+"%";
     }
-    function handleChange(active,last){
-      activeDivisor.value = 'divisor' + active
-      activeSlider.value = 'slider' + active
-    }
     return{
       moveDivisor,
-      handleChange,
-      activeDivisor,
       divisor,
       slider,
-      activeSlider,
       loading
     }
   }
@@ -121,25 +98,26 @@ div#comparison {
   perspective: 100px;
 }
 div#comparison figure {
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   position: relative;
   font-size: 0;
   width: 90%;
   height: 90%;
   margin: 20px auto 0;
-
 }
 div#comparison figure > img {
   position: relative;
   width: 100%;
 }
 div#comparison figure div {
-  background-size: cover;
+  background-size: auto 100%;
   position: absolute;
   width: 50%;
   box-shadow: 0 5px 10px -2px rgba(0,0,0,0.3);
   overflow: hidden;
   height: 100%;
+  background-repeat: no-repeat;
 }
 
 input[type=range]{

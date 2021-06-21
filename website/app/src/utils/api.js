@@ -70,12 +70,10 @@ export function uploadImg2(data){
 }
 export function colorize(data){
   return request({
-    baseURL:'http://localhost:5000',
+    //baseURL:'http://localhost:5000',
     url:'/upload',
     method:'post',
     data,
-    cache: false,
-    contentType: false,
-    processData: false,
+    enctype: 'multipart/form-data',
   })
 }

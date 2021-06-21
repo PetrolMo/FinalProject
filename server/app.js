@@ -31,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images',express.static('./public/images'));
 
 //判断用户是否带有token,没有不进行操作，有的话进行验证
 // app.use((req,res,next) => {
@@ -51,7 +52,11 @@ app.use(expressJWT({
 }).unless({
   path: [
     '/register',
-    '/login'
+    '/login',
+    '/',
+    '/images',
+    '/public/images',
+    'public'
   ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
 })
 );

@@ -5,8 +5,9 @@ import { ElMessage } from 'element-plus'
 //创建实例
 
 const service = axios.create({
-  baseURL:'http://localhost:3000',
-  timeout:5000
+ baseURL:'https://colorize.cn1.utools.club',
+ //  baseURL:'http://localhost:3000',
+  timeout:10000
 })
 
 //创建发起请求前的拦截器
@@ -16,21 +17,21 @@ service.interceptors.request.use(function (config){
   if(config.url === '/login'|| config.url === '/register') {
     return config
   }
-  // if(!token){
-  //   router.replace({
-  //     path: '/login',
-  //     query: {redirect: router.currentRoute.value.fullPath}   //登录成功后跳入浏览的当前页面
-  //   }).then(() => {
-  //     ElMessage.warning({
-  //       message: '请先登录后操作。',
-  //       type: 'warning',
-  //       center:true,
-  //       duration:2000
-  //     });
-  //   })
-  //   return Promise.reject('请先登陆后操作')
-  // }
-  // token && (config.headers.Authorization = store.getters.bearerToken);
+  if(!token){
+    router.replace({
+      path: '/login',
+      query: {redirect: router.currentRoute.value.fullPath}   //登录成功后跳入浏览的当前页面
+    }).then(() => {
+      ElMessage.warning({
+        message: '请先登录后操作。',
+        type: 'warning',
+        center:true,
+        duration:2000
+      });
+    })
+    return Promise.reject('请先登陆后操作')
+  }
+  token && (config.headers.Authorization = store.getters.bearerToken);
   return config;
 },function (error){
   console.log("请求发生错误！")

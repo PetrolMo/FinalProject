@@ -131,7 +131,7 @@ const routes = [
         path: '/project2',
         name:'专业综合项目',
         icon:'el-icon-s-opportunity',
-        meta: {title: '专业综合项目',requireAuth: true},
+        meta: {title: '图片上色',requireAuth: true},
         component:() => import('@/views/projectpro/ProjectPro')
       }
     ]
@@ -150,6 +150,13 @@ const routes = [
         icon:'el-icon-picture',
         meta: {title: '图片搜索',requireAuth: true},
         component:() => import('@/views/Interaction/Interaction')
+      },
+      {
+        path: '/dataVisual',
+        name:'数据可视化',
+        icon:'el-icon-s-marketing',
+        meta: {title: '数据可视化',requireAuth: true},
+        component:() => import('@/views/Interaction/Data')
       }
     ]
   },

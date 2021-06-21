@@ -6,6 +6,8 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "baidu-aip-sdk": "^4.15.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
@@ -27,5 +29,8 @@
     "nodemon": "^2.0.7",
     "qcloud-cos-sts": "^3.0.6",
     "qiniu": "^7.3.2"
+  },
+  "devDependencies": {
+    "multiparty": "^4.2.2"
   }
 }

@@ -5,8 +5,8 @@
       <div class="aside-logo" @click="onRefresh">
         <el-image class="logo-image" :src="logo" fit="contain"/>
         <span :class="[isCollapse ? 'is-collapse' : '']">
-                    <span class="logo-name">莫仪智</span>
-                    <span>软件测试中心</span>
+                    <span class="logo-name">综合课设网站</span>
+                    <span></span>
                 </span>
       </div>
     </el-affix>
@@ -63,18 +63,20 @@
             </el-breadcrumb>
           </div>
         </el-col>
-        <el-col :span="3" :offset="11" class="rightHeader">
-          <el-dropdown>
-            <i class="el-icon-user-solid" style="margin-right: 10px"></i>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <el-button type="text" @click="$router.replace('/login')">{{label}}</el-button>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>你好！{{userInfo.username}}</span>
+        <el-col :span="6" :offset="8" class="rightHeader">
+          <div style="float: right">
+            <el-dropdown>
+              <i class="el-icon-user-solid" style="margin-right: 10px"></i>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="$router.replace('/login')">{{label}}</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+            你好！{{userInfo.username}}
+          </div>
         </el-col>
       </el-row>
     </el-header>

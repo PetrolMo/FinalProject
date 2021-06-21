@@ -16,6 +16,7 @@
     "d3": "^6.7.0",
     "d3-dsv": "^2.0.0",
     "echarts": "^5.1.1",
+    "echarts-stat": "^1.2.0",
     "element-plus": "^1.0.2-beta.28",
     "nprogress": "^0.2.0",
     "vue": "^3.0.0",
