@@ -1,11 +1,16 @@
 <template>
 
+
 </template>
 
 <script>
-export default {
-name: "Test1"
-}
+import {reactive,defineComponent} from 'vue'
+export default defineComponent({
+  name: "Test2",
+  setup(props,ctx){
+
+  }
+})
 </script>
 
 <style scoped>

@@ -5,8 +5,8 @@ import { ElMessage } from 'element-plus'
 //创建实例
 
 const service = axios.create({
- baseURL:'https://colorize.cn1.utools.club',
- //  baseURL:'http://localhost:3000',
+ // baseURL:'https://colorize.cn1.utools.club',
+  baseURL:'http://localhost:3000',
   timeout:10000
 })
 

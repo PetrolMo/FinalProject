@@ -77,3 +77,11 @@ export function colorize(data){
     enctype: 'multipart/form-data',
   })
 }
+export function uploadCSV(data){
+  return request({
+    url:'/test/test1',
+    method:'post',
+    data,
+    enctype:'multipart/form-data'
+  })
+}

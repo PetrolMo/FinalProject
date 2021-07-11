@@ -50,14 +50,14 @@ const routes = [
         meta: {title: '判断三角形类型',requireAuth: true},
         component:() => import('@/views/test/Test1')
       },
-      {
-        path: '/test2',
-        name:'销售管理系统',
-        icon:'el-icon-s-promotion',
-        meta: {title: '销售管理系统',requireAuth: true},
-        component:() => import('@/views/test/Test2')
-
-      },
+      // {
+      //   path: '/test2',
+      //   name:'销售管理系统',
+      //   icon:'el-icon-s-promotion',
+      //   meta: {title: '销售管理系统',requireAuth: true},
+      //   component:() => import('@/views/test/Test2')
+      //
+      // },
       {
         path: '/test3',
         name:'电脑销售系统',
@@ -72,13 +72,13 @@ const routes = [
       //   meta: {title: '电商平台系统',requireAuth: true},
       //   component:() => import('@/views/test/Test4')
       // },
-      {
-        path: '/test5',
-        name:'边界值测试项目',
-        icon:'el-icon-s-promotion',
-        meta: {title: '边界值测试项目',requireAuth: true},
-        component:() => import('@/views/test/Test5')
-      },
+      // {
+      //   path: '/test5',
+      //   name:'边界值测试项目',
+      //   icon:'el-icon-s-promotion',
+      //   meta: {title: '边界值测试项目',requireAuth: true},
+      //   component:() => import('@/views/test/Test5')
+      // },
       {
         path: '/test6',
         name:'电信收费系统',
@@ -156,7 +156,21 @@ const routes = [
         name:'数据可视化',
         icon:'el-icon-s-marketing',
         meta: {title: '数据可视化',requireAuth: true},
-        component:() => import('@/views/Interaction/Data')
+        component:() => import('@/views/Interaction/Data'),
+        children:[
+          {
+            path:'/menu1',
+            component:() => import('@/views/Interaction/Menu1')
+          },
+          {
+            path:'/menu2',
+            component:() => import('@/views/Interaction/Menu2')
+          },
+          {
+            path:'/menu3',
+            component:() => import('@/views/Interaction/Menu3')
+          },
+        ]
       }
     ]
   },
@@ -179,7 +193,7 @@ const routes = [
         name:'可行性分析',
         icon:'el-icon-s-data',
         meta: {title:'案例分析',requireAuth: true},
-        component:() => import('@/views/process/BusinessCase')
+        component:() => import('@/views/process/Process')
       }
     ]
   }

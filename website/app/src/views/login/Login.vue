@@ -60,7 +60,6 @@
 import {defineComponent, reactive, ref, getCurrentInstance } from 'vue'
 import {validateVPassword,} from "@/utils/validate"
 import {login} from "utils/api";
-import { ElMessage } from 'element-plus'
 export default defineComponent({
   name: "Login",
   setup(props,ctx){

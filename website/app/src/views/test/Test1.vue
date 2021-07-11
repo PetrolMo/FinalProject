@@ -342,22 +342,22 @@ export default {
         }).then(res => {
           event.title = ''
         }).catch(err => console.log(err))
-        uploadTest(that.tableDataFromFile).then(res => {
-          if(res.data[0] === 'insert fail!'){
-            that.$notify.error({
-              title: '上传失败',
-              message: h('i', { style: 'color: teal'}, '测试结果上传数据失败，失败原因:'+res.data[1].message)
-            });
-          }else{
-            that.$notify({
-              title: '上传成功',
-              message: h('i', { style: 'color: teal'}, '测试结果已经成功上传到数据库')
-            });
-          }
-        }).catch(err => console.log(err))
+        // uploadTest(that.tableDataFromFile).then(res => {
+        //   if(res.data[0] === 'insert fail!'){
+        //     that.$notify.error({
+        //       title: '上传失败',
+        //       message: h('i', { style: 'color: teal'}, '测试结果上传数据失败，失败原因:'+res.data[1].message)
+        //     });
+        //   }else{
+        //     that.$notify({
+        //       title: '上传成功',
+        //       message: h('i', { style: 'color: teal'}, '测试结果已经成功上传到数据库')
+        //     });
+        //   }
+        // }).catch(err => console.log(err))
       }
     },
-   handleRemove(file, fileList){
+    handleRemove(file, fileList){
       console.log(file, fileList);
     },
     handlePreview(file) {

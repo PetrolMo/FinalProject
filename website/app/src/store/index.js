@@ -2,7 +2,9 @@ import {createStore} from "vuex"
 
 export default createStore({
   state:{
-    tableData : [],
+    table1:{},
+    table2:{},
+    table3:{},
     user:'001',
     token:'',
     userInfo:{
@@ -24,7 +26,16 @@ export default createStore({
     },
     setUserName(state,userName){
       state.userInfo.username = userName
-    }
+    },
+    setTable1(state,table1){
+      state.table1 = table1
+    },
+    setTable2(state,table2){
+      state.table2 = table2
+    },
+    setTable3(state,table3){
+      state.table3 = table3
+    },
   },
   //异步提交mutations
   actions:{},
