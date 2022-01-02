@@ -9,7 +9,8 @@ export default createStore({
     token:'',
     userInfo:{
       username:''
-    }
+    },
+    tableData: []
   },
   getters:{
     bearerToken:state => {
