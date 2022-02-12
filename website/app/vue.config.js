@@ -21,5 +21,15 @@ module.exports = {
         "utils":resolve("src/utils"),
       }
     }
+  },
+  // webpack-dev-server 相关配置
+  devServer: {
+    disableHostCheck: true,
+    host: '127.0.0.1',
+    port: 8005,
+    overlay: {
+      warnings: true,
+      errors: true
+    }
   }
 }
