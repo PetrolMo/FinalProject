@@ -6,7 +6,9 @@ import { ElMessage } from 'element-plus'
 
 const service = axios.create({
  // baseURL:'https://colorize.cn1.utools.club',
-  baseURL:'http://106.13.227.221:3000',
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'http://106.13.227.221:3000'
+    : 'http://localhost:3000',
   timeout:10000
 })
 
