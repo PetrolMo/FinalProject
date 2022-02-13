@@ -10,24 +10,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest # 运行环境，告诉它运行在什么环境
     steps:
-      # 第一步：下载源码（CI/CD拉取代码到自己的本地）
-      - name: Checkout
-        uses: actions/checkout@master # 切换到 master 分支
-
-      # 第二步：添加node环境，不可缺失
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-
-      # 第三步：打包构建
-      - name: Build
-        run: |
-          cd website/app
-          npm install && npm run build
-
       # 第四步：部署到服务器
       - name: ssh deploy
         uses: appleboy/ssh-action@master
-        env:
+        with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
