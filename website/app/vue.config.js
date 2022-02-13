@@ -6,7 +6,9 @@ function resolve(dir){
 module.exports = {
   //修改时不进行lint检查
   lintOnSave:false,
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Junior-Year-Program/'
+    : '/',
   //webpack一些配置
   configureWebpack:{
     resolve:{
