@@ -1,0 +1,34 @@
+name: Publish And Deploy Demo # 显示在 Github Actions 里面的名称
+
+# 监听 master 分支的 push 事件，执行 jobs 里面的内容
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # 运行环境，告诉它运行在什么环境
+    steps:
+      # 第一步：下载源码（CI/CD拉取代码到自己的本地）
+      - name: Checkout
+        uses: actions/checkout@master # 切换到 master 分支
+
+      # 第二步：添加node环境，不可缺失
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+
+      # 第三步：打包构建
+      - name: Build
+        run: npm install && npm run build
+
+      # 第四步：部署到服务器
+      - name: ssh deploy
+        uses: easingthemes/ssh-deploy@v2.1.6
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          REMOTE_PORT: ${{ secrets.PORT }}
+          SOURCE: 'webView/'
+          TARGET: '/usr/web/html/blog'
