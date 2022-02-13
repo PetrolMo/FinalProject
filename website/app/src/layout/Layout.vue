@@ -5,7 +5,7 @@
       <div class="aside-logo" @click="onRefresh">
         <el-image class="logo-image" :src="logo" fit="contain"/>
         <span :class="[isCollapse ? 'is-collapse' : '']">
-                    <span class="logo-name">用户交互技术</span>
+                    <span class="logo-name">用户交互技术233</span>
                     <span></span>
                 </span>
       </div>

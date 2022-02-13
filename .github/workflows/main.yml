@@ -20,7 +20,9 @@ jobs:
 
       # 第三步：打包构建
       - name: Build
-        run: npm install && npm run build
+        run: |
+          cd website/app
+          npm install && npm run build
 
       # 第四步：部署到服务器
       - name: ssh deploy
@@ -31,4 +33,4 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           REMOTE_PORT: ${{ secrets.PORT }}
           SOURCE: 'webView/'
-          TARGET: '/usr/web/html/blog'
+          TARGET: '/root/Junior-Year-Program/website/app/dist'
