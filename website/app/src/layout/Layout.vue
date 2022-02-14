@@ -17,7 +17,7 @@
              background-color="#001529" text-color="#fff" active-text-color="#fff"
     >
       <div v-for="menu in routers" :key="menu">
-        <el-menu-item v-if="menu.children && menu.children.length === 1 && menu.children[0].name !== '图片搜索系统'" :index="menu.children[0].path">
+        <el-menu-item v-if="menu.children && menu.children.length === 1" :index="menu.children[0].path">
           <i :class="menu.children[0].icon"></i>
           <template #title>
             {{menu.children[0].name}}
@@ -70,7 +70,7 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item>
-                    <el-button type="text" @click="$router.replace('/login')">{{label}}</el-button>
+                    <el-button type="text" @click="logout">{{label}}</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -130,10 +130,16 @@ export default {
     const onRefresh = () => {
       router.push({ path: 'main'})
     }
+    const logout = () => {
+      localStorage.setItem('username', '')
+      localStorage.setItem('token', '')
+      router.replace('/login')
+    }
     return{
       ...toRefs(state),
       onCollapse,
       onRefresh,
+      logout,
       userInfo,
       label
     }

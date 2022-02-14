@@ -4,7 +4,8 @@ export default createStore({
   state:{
     userInfo:{
       username:''
-    }
+    },
+    token: ''
   },
   getters:{
     bearerToken:state => {
@@ -13,8 +14,11 @@ export default createStore({
   },
   //同步修改
   mutations:{
-    setUserName(state,userName){
-      state.userInfo.username = userName
+    setUserName(state, option){
+      state.userInfo.username = option
+    },
+    setToken(state, option){
+      state.token = option
     }
   },
   //异步提交mutations

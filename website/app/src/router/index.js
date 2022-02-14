@@ -84,8 +84,13 @@ router.beforeEach((to, from, next) => {
     store.commit('setToken','')
     store.commit('setUserName','')
     next()
-  }else{
+  }
+  if (localStorage.getItem('username')) {
+    store.commit('setUserName',localStorage.getItem('username'))
+    store.commit('setToken', localStorage.getItem('token'))
     next()
+  } else {
+    next({ name: 'login' })
   }
 })
 

@@ -119,8 +119,10 @@ export default defineComponent({
           //进行登录操作
           login(this.userInfo)
             .then(res => {
-              that.$store.commit('setToken',res.data.token)
+              that.$store.commit('setToken', res.data.token)
               that.$store.commit('setUserName',res.data.username)
+              localStorage.setItem('username', res.data.username)
+              localStorage.setItem('token', res.data.token)
               setTimeout(() => {
                 this.$notify({
                   title: '登录成功',
@@ -130,7 +132,6 @@ export default defineComponent({
                   onClose:() => {
                     that.fullLoading = false
                     setTimeout(() => {
-                      console.log(that.$route)
                       if (that.$route.query.redirect) { //如果存在参数
                         let redirect = that.$route.query.redirect
                         that.$router.replace(redirect)//则跳转至进入登录页前的路由
