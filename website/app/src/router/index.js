@@ -11,13 +11,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    meta: {title: '登录账号',requireAuth: true},
+    meta: {title: '登录',requireAuth: true},
     component: () => import('views/login/Login')
   },
   {
     path: '/register',
     name: 'register',
-    meta: {title: '注册账号',requireAuth: true},
+    meta: {title: '注册',requireAuth: true},
     component: () => import('views/register/Register')
   },
   {
@@ -37,163 +37,26 @@ const routes = [
     ],
   },
   {
-    path: '/test',
-    name:'测试练习',
-    icon:'el-icon-s-promotion',
-    component: Layout,
-    meta: {title:'测试练习',requireAuth: true},
-    children: [
-      {
-        path: '/test1',
-        name:'判断三角形类型',
-        icon:'el-icon-s-promotion',
-        meta: {title: '判断三角形类型',requireAuth: true},
-        component:() => import('@/views/test/Test1')
-      },
-      // {
-      //   path: '/test2',
-      //   name:'销售管理系统',
-      //   icon:'el-icon-s-promotion',
-      //   meta: {title: '销售管理系统',requireAuth: true},
-      //   component:() => import('@/views/test/Test2')
-      //
-      // },
-      {
-        path: '/test3',
-        name:'电脑销售系统',
-        icon:'el-icon-s-promotion',
-        meta: {title: '电脑销售系统',requireAuth: true},
-        component:() => import('@/views/test/Test3')
-      },
-      // {
-      //   path: '/test4',
-      //   name:'电商平台系统',
-      //   icon:'el-icon-s-promotion',
-      //   meta: {title: '电商平台系统',requireAuth: true},
-      //   component:() => import('@/views/test/Test4')
-      // },
-      // {
-      //   path: '/test5',
-      //   name:'边界值测试项目',
-      //   icon:'el-icon-s-promotion',
-      //   meta: {title: '边界值测试项目',requireAuth: true},
-      //   component:() => import('@/views/test/Test5')
-      // },
-      {
-        path: '/test6',
-        name:'电信收费系统',
-        icon:'el-icon-s-promotion',
-        meta: {title: '电信收费系统',requireAuth: true},
-        component:() => import('@/views/test/Test6')
-      },
-      // {
-      //   path: '/test7',
-      //   name:'实时C/S系统',
-      //   icon:'el-icon-s-promotion',
-      //   meta: {title: '实时C/S系统',requireAuth: true},
-      //   component:() => import('@/views/test/Test7')
-      // },
-      {
-        path: '/test8',
-        name:'万年历问题',
-        icon:'el-icon-s-promotion',
-        meta: {title: '万年历问题',requireAuth: true},
-        component:() => import('@/views/test/Test8')
-      },
-    ]
-  },
-  {
-    path: '/projectTest',
-    name:'项目测试项目',
-    meta: {title: '项目测试项目',requireAuth: true},
+    path: '/user-manager',
+    name:'用户管理',
+    meta: {title: '用户管理',requireAuth: true},
     icon:'el-icon-s-claim',
     component: Layout,
-    redirect: '/project1',
+    redirect: '/user-data',
     children: [
       {
-        path: '/project1',
-        name:'项目测试项目',
+        path: '/user-list',
+        name:'用户列表',
         icon:'el-icon-s-claim',
-        meta: {title: '项目测试项目',requireAuth: true},
-        component:() => import('@/views/project/ProjectTest')
-      }
-    ]
-  },
-  {
-    path: '/projectPro',
-    name:'专业综合项目',
-    meta: {title: '专业综合项目',requireAuth: true},
-    icon:'el-icon-s-opportunity',
-    component: Layout,
-    redirect: '/project2',
-    children: [
-      {
-        path: '/project2',
-        name:'专业综合项目',
-        icon:'el-icon-s-opportunity',
-        meta: {title: '图片上色',requireAuth: true},
-        component:() => import('@/views/projectpro/ProjectPro')
-      }
-    ]
-  },
-  {
-    path: '/Interaction',
-    name:'用户交互项目',
-    meta: {title: '用户交互项目',requireAuth: true},
-    icon:'el-icon-s-opportunity',
-    component: Layout,
-    redirect: '/imgSearch',
-    children: [
-      {
-        path: '/imgSearch',
-        name:'图片搜索系统',
-        icon:'el-icon-picture',
-        meta: {title: '图片搜索',requireAuth: true},
-        component:() => import('@/views/Interaction/Interaction')
+        meta: {title: '用户列表',requireAuth: true},
+        component:() => import('@/views/user/user-list/index')
       },
       {
-        path: '/dataVisual',
-        name:'数据可视化',
-        icon:'el-icon-s-marketing',
-        meta: {title: '数据可视化',requireAuth: true},
-        component:() => import('@/views/Interaction/Data'),
-        children:[
-          {
-            path:'/menu1',
-            component:() => import('@/views/Interaction/Menu1')
-          },
-          {
-            path:'/menu2',
-            component:() => import('@/views/Interaction/Menu2')
-          },
-          {
-            path:'/menu3',
-            component:() => import('@/views/Interaction/Menu3')
-          },
-        ]
-      }
-    ]
-  },
-  {
-    path: '/progress',
-    name:'项目过程管理',
-    icon:'el-icon-s-marketing',
-    component: Layout,
-    meta: {title: '项目过程管理', requireAuth: true},
-    children: [
-      {
-        path: '/businessCase',
-        name:'案例分析',
-        icon:'el-icon-s-data',
-        meta: {title:'案例分析',requireAuth: true},
-        component:() => import('@/views/process/BusinessCase')
-      },
-      {
-        path: '/Falys',
-        name:'可行性分析',
-        icon:'el-icon-s-data',
-        meta: {title:'案例分析',requireAuth: true},
-        component:() => import('@/views/process/Process')
+        path: '/certification-list',
+        name:'认证列表',
+        icon:'el-icon-s-claim',
+        meta: {title: '认证列表',requireAuth: true},
+        component:() => import('@/views/user/certification-list/index')
       }
     ]
   }
@@ -215,7 +78,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   } else {
-    document.title = "测试中心"
+    document.title = "admin"
   }
   if(to.path === '/login' || to.path === '/register'){
     store.commit('setToken','')

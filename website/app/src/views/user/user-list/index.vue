@@ -1,10 +1,10 @@
 <template>
-
+  <div>用户列表</div>
 </template>
 
 <script>
 export default {
-  name: "Test7"
+  name: "UserList"
 }
 </script>
 

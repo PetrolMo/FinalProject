@@ -1,10 +1,10 @@
 <template>
-
+  <div>认证列表</div>
 </template>
 
 <script>
 export default {
-name: "Test1"
+  name: "CertificationList"
 }
 </script>
 
