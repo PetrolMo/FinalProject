@@ -4,6 +4,8 @@ const mongo = require('../public/javascripts/mongodb')
 const User = require('../model/user')
 const Token = require('../public/javascripts/token')
 const fs = require('fs')
+const { STS } = require('ali-oss');
+
 const multiparty = require('multiparty');
 // const AipImageProcessClient = require("baidu-aip-sdk").imageProcess;
 // // 设置APPID/AK/SK
@@ -16,12 +18,12 @@ const multiparty = require('multiparty');
 mongo()
 router.get('/', function(req, res, next) {
   User.findOne({
-    user:'MoYiZhi'
+    user:'admin'
   }).then(_res => {
-    console.log(_res)
     res.json(_res)
   })
 });
+
 //注册功能
 router.post('/register',async (req,res) =>{
   //首先检查数据库中是否已经存在用户
@@ -87,6 +89,28 @@ router.post('/login',async (req,res) => {
       })
 })
 
+//获取alioss sts
+router.get('/sts', (req, res) => {
+  let sts = new STS({
+    // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+    accessKeyId: 'LTAI5tFvAzKt8K1syfzLarqj',
+    accessKeySecret: 'HA11GPL5z160qG8Cw7mnccE556APSs'
+  });
+  sts.assumeRole('acs:ram::1633491245060972:role/moyizhi', '', '3600', 'sessionName').then((result) => {
+    console.log(result);
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-METHOD', 'GET');
+    res.json({
+      AccessKeyId: result.credentials.AccessKeyId,
+      AccessKeySecret: result.credentials.AccessKeySecret,
+      SecurityToken: result.credentials.SecurityToken,
+      Expiration: result.credentials.Expiration
+    });
+  }).catch((err) => {
+    console.log(err);
+    res.status(400).json(err.message);
+  });
+});
 //上传图片
 // router.post('/upload',async (req,res) => {
 //   let form = new multiparty.Form();

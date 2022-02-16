@@ -58,7 +58,8 @@ app.use(expressJWT({
     '/images',
     '/public/images',
     'public',
-    'test'
+    'test',
+    '/sts'
   ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
 })
 );

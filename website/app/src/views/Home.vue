@@ -1,30 +1,30 @@
 <template>
   <div class="home">
     <div class="home-title">
-<!--      <el-card shadow="always">-->
-<!--        <div class="title-msg">工作台</div>-->
-<!--        <el-row>-->
-<!--          <el-col :span="2" :offset="1">-->
-<!--            <el-avatar :size="60" :src="avatar"></el-avatar>-->
-<!--          </el-col>-->
-<!--          <el-col :span="4">-->
-<!--            <div class="greetings">早上好,admin</div>-->
-<!--            <div class="weather">今天是大太阳天,30~35°,天热,注意不要出门</div>-->
-<!--          </el-col>-->
-<!--          <el-col :span="6" :offset="11">-->
-<!--            <el-row>-->
-<!--              <el-col class="item" :span="14">-->
-<!--                <i class="el-icon-edit-outline p4em"/>-->
-<!--                <span>代办事项  </span>-->
-<!--                <span class="item item-text" :span="2">1/8</span>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
-<!--            <el-row >-->
-<!--              <el-col :push="1" class="item item-text" :span="12"><el-progress :percentage="12.5" :stroke-width="12"></el-progress></el-col>-->
-<!--            </el-row>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--      </el-card>-->
+      <el-card shadow="always">
+        <div class="title-msg">工作台</div>
+        <el-row>
+          <el-col :span="2" :offset="1">
+            <el-avatar :size="60" :src="avatar"></el-avatar>
+          </el-col>
+          <el-col :span="4">
+            <div class="greetings">早上好,admin</div>
+            <div class="weather">今天是大太阳天,30~35°,天热,注意不要出门</div>
+          </el-col>
+          <el-col :span="6" :offset="11">
+            <el-row>
+              <el-col class="item" :span="14">
+                <i class="el-icon-edit-outline p4em"/>
+                <span>代办事项  </span>
+                <span class="item item-text" :span="2">1/8</span>
+              </el-col>
+            </el-row>
+            <el-row >
+              <el-col :push="1" class="item item-text" :span="12"><el-progress :percentage="12.5" :stroke-width="12"></el-progress></el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+      </el-card>
     </div>
     <div class="home-card m120">
 
