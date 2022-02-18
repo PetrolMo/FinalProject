@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus'
 //创建实例
 
 const service = axios.create({
- baseURL:'http://106.13.227.221:3000'
+ // baseURL:'http://106.13.227.221:3000'
  //  baseURL: process.env.NODE_ENV === 'production'
  //    ? 'http://106.13.227.221:3000'
  //    : 'http://localhost:3000',
@@ -16,7 +16,7 @@ const service = axios.create({
 service.interceptors.request.use(function (config){
   const token = store.state.token;
   console.log("这是"+config.url+"请求的请求体内容",config)
-  if(config.url === '/login'|| config.url === '/register') {
+  if(config.url === '/api/login'|| config.url === '/api/register') {
     return config
   }
   if(!token){

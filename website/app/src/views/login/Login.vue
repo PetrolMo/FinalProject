@@ -103,7 +103,7 @@ export default defineComponent({
     handleLogin(formName){
       const that = this
       const fieldPromise = Object.getOwnPropertyNames(formName).map(item => {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve) => {
           that.$refs.userinforef.validateField(item, error =>{
             resolve(error);
           })
@@ -124,11 +124,10 @@ export default defineComponent({
               localStorage.setItem('username', res.data.username)
               localStorage.setItem('token', res.data.token)
               setTimeout(() => {
-                this.$notify({
+                this.$notify.success({
                   title: '登录成功',
                   showClose:false,
                   duration:1000,
-                  type: 'success',
                   onClose:() => {
                     that.fullLoading = false
                     setTimeout(() => {
