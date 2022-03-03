@@ -30,15 +30,6 @@ module.exports = {
     overlay: {
       warnings: true,
       errors: true
-    },
-    proxy: {
-      '/api': {
-        target: '106.13.227.221:3000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/'
-        }
-      }
     }
   }
 }
