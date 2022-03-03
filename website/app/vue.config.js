@@ -33,7 +33,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'https://eftu8u6zir.51xd.pub',
+        target: '106.13.227.221:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
