@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus'
 //创建实例
 
 const service = axios.create({
- // baseURL:'http://106.13.227.221:3000'
+ baseURL:'http://106.13.227.221:3000'
  //  baseURL: process.env.NODE_ENV === 'production'
  //    ? 'http://106.13.227.221:3000'
  //    : 'http://localhost:3000',

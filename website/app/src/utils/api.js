@@ -2,34 +2,34 @@ import request from './network'
 
 export function login(data){
   return request({
-    url:'/api/login',
+    url:'/login',
     method:'post',
     data
   })
 }
 export function register(data){
   return request({
-    url:'/api/register',
+    url:'/register',
     method:'post',
     data
   })
 }
 export function users(){
   return request({
-    url:'/api/users',
+    url:'/users',
     method:'get'
   })
 }
 export function good(data){
   return request({
-    url:'/api/good',
+    url:'/good',
     method:'post',
     data
   })
 }
 export function postGood(data){
   return request({
-    url:'/api/good/postGood',
+    url:'/good/postGood',
     method:'post',
     data
   })
@@ -37,21 +37,21 @@ export function postGood(data){
 
 export function getOss(){
   return request({
-    url:'/api/getOss',
+    url:'/getOss',
     method:'get',
   })
 }
 
 export function uploadImg(data){
   return request({
-    url:'/api/upload',
+    url:'/upload',
     method:'post',
     data
   })
 }
 export function uploadTest(data){
   return request({
-    url:'/api/uploadTest',
+    url:'/uploadTest',
     method:'post',
     data
   })
@@ -71,7 +71,7 @@ export function uploadImg2(data){
 export function colorize(data){
   return request({
     //baseURL:'http://localhost:5000',
-    url:'/api/upload',
+    url:'/upload',
     method:'post',
     data,
     enctype: 'multipart/form-data',
@@ -79,7 +79,7 @@ export function colorize(data){
 }
 export function uploadCSV(data){
   return request({
-    url:'/api/test/test1',
+    url:'/test/test1',
     method:'post',
     data,
     enctype:'multipart/form-data'
