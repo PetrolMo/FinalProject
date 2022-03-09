@@ -1,35 +1,38 @@
 const mongoose = require('mongoose')
 
 const GoodSchema = new mongoose.Schema({
-    price:{
+    id: {
+        type:String
+    },
+    price:{ // 价格
         type:Number,
         default:0,
     },
-    campus:{
+    campus:{ // 校区
         type:String,
         default:''
     },
-    images:{
+    images:{ // 商品图片
         type:Array,
         default:[]
     },
-    postUserId:{
+    post_user_id:{ // 发布者ID
         type:String,
         required:true
     },
-    state:{
+    state:{ // 商品状态
         type:Number,
         default:0
     },
-    title:{
+    title:{ // 标题
         type:String,
         default:''
     },
-    goodType:{
+    goodType:{ // 商品类型
         type:Array,
         default:[]
     },
-    description:{
+    description:{ // 描述
         type:String,
         default:''
     }

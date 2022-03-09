@@ -33,5 +33,9 @@
   },
   "devDependencies": {
     "multiparty": "^4.2.2"
+  },
+  "apidoc": {
+    "title": "后台接口文档",
+    "url": "http://localhost:3000"
   }
 }

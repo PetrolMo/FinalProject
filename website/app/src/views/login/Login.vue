@@ -135,7 +135,7 @@ export default defineComponent({
                         let redirect = that.$route.query.redirect
                         that.$router.replace(redirect)//则跳转至进入登录页前的路由
                       } else {
-                        that.$router.replace('/')//否则跳转至首页
+                        that.$router.replace('/home')//否则跳转至首页
                       }
                     },300)
                   }
