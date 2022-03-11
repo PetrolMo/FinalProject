@@ -21,6 +21,7 @@ html, body {
   padding: 0;
   margin: 0;
   overflow: hidden;
+  cursor: default;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 #nprogress .bar {

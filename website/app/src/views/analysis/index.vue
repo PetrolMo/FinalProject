@@ -89,7 +89,7 @@
           <el-col :span="6">
             <div class="title">
               <span>用户发布商品数量排名</span>
-              <span class="info">点击查看详情</span>
+              <span class="info" @click="showDialog = true">点击查看详情</span>
             </div>
             <div class="list" v-for="user in list" :key="user.rank">
               <div class="rank">{{user.rank}}</div>
@@ -100,6 +100,49 @@
         </el-row>
       </el-card>
     </el-row>
+    <el-dialog
+        v-model="showDialog"
+        width="80vw"
+        top="10vh"
+    >
+      <template #title>
+        <div>排名详情</div>
+      </template>
+      <el-table
+          ref="multipleTableRef"
+          :data="tableData"
+          style="width: 100%"
+          @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55" />
+        <el-table-column label="排名" width="120">
+          <template #default="scope">
+            <span style="padding-right: 10px">{{ scope.row.number }}</span>
+            <span v-if="scope.row.rise">
+              <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.5 0L9 7H0L4.5 0Z" fill="#E2394E"/>
+              </svg>
+            </span>
+            <span v-else>
+              <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.5 7L6.11959e-07 -1.26364e-06L9 -4.76837e-07L4.5 7Z" fill="#4DCB73"/>
+              </svg>
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column property="id" label="用户ID" width="120" align="left" />
+        <el-table-column property="user_name" label="用户昵称" show-overflow-tooltip width="120" align="left"  />
+        <el-table-column property="post_goods_nums" label="总商品发布数" width="150" align="center" :sortable="true" />
+        <el-table-column property="order_nums" label="总交易订单数" width="150" align="center" :sortable="true"  />
+        <el-table-column property="update_time" label="更新时间" width="220" align="left" />
+        <el-table-column property="options" label="操作" align="left">
+          <template #default="scope">
+            <el-button type="text">配置</el-button>
+            <el-button type="text">查看主页</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -232,7 +275,8 @@ export default {
           },
           itemStyle: {
             color: '#1890FF'
-          }
+          },
+          barWidth: '24px'
         },
       ],
     })
@@ -294,6 +338,84 @@ export default {
         account: '123,222'
       }
     ])
+    let showDialog = ref(false)
+    const tableData = reactive([
+      {
+        number: 1,
+        id: 1,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: true
+      },
+      {
+        number: 2,
+        id: 21,
+        user_name: '南北233',
+        post_goods_nums: '3,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: false
+      },
+      {
+        number: 3,
+        id: 12,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: true
+      },
+      {
+        number: 4,
+        id: 11,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: true
+      },
+      {
+        number: 5,
+        id: 51,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: false
+      },
+      {
+        number: 6,
+        id: 34,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: false
+      },
+      {
+        number: 7,
+        id: 81,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: false
+      },
+      {
+        number: 8,
+        id: 10,
+        user_name: '南北233',
+        post_goods_nums: '233,333',
+        order_nums: '123,456',
+        update_time: '2021-10-31  23:12:00',
+        rise: true
+      }
+    ])
+    const handleSelectionChange = function (item) {
+      console.log(item)
+    }
     return {
       chartOptions,
       chartStyle,
@@ -305,7 +427,10 @@ export default {
       data_name,
       dataChartStyle,
       dataChartOptions,
-      list
+      list,
+      showDialog,
+      tableData,
+      handleSelectionChange
     }
   }
 }
@@ -432,5 +557,8 @@ export default {
 }
 .el-tabs__header {
   margin-bottom: -18px;
+}
+.el-dialog__header {
+  border-bottom: 1px solid #E9E9E9;
 }
 </style>
