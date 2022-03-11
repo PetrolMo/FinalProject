@@ -5,7 +5,7 @@
       <div class="aside-logo" @click="onRefresh">
         <el-image class="logo-image" :src="logo" fit="contain"/>
         <span :class="[isCollapse ? 'is-collapse' : '']">
-                    <span class="logo-name">ADMIN</span>
+                    <span class="logo-name">JiDao Pro</span>
                     <span></span>
                 </span>
       </div>
@@ -17,21 +17,21 @@
              background-color="#001529" text-color="#fff" active-text-color="#fff"
     >
       <div v-for="menu in routers" :key="menu">
-        <el-menu-item v-if="menu.children && menu.children.length === 1" :index="menu.children[0].path">
+        <el-menu-item v-if="menu.children && menu.name === 'home'" :index="menu.children[0].path">
           <i :class="menu.children[0].icon"></i>
           <template #title>
-            {{menu.children[0].name}}
+            {{menu.children[0].meta.title}}
           </template>
         </el-menu-item>
         <el-submenu v-else-if="menu.children" :index="menu.path">
           <template #title>
             <i :class="menu.icon"></i>
-            <span :class="[isCollapse ? 'is-collapse' : '']">{{menu.name}}</span>
+            <span :class="[isCollapse ? 'is-collapse' : '']">{{menu.meta.title}}</span>
           </template>
           <el-menu-item v-for="child in menu.children" :key="child" :index="child.path">
             <i :class="child.icon"></i>
             <template #title>
-              {{child.name}}
+              {{child.meta.title}}
             </template>
           </el-menu-item>
         </el-submenu>
@@ -49,16 +49,13 @@
         <el-col :span="9">
           <div class="header-breadcrumb">
             <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$route.matched[0].path === '/main'">
-              <el-breadcrumb-item>工作台</el-breadcrumb-item>
-            </el-breadcrumb>
-            <el-breadcrumb separator-class="el-icon-arrow-right" v-else-if="this.$route.matched[0].path === '/projectTest' || this.$route.matched[0].path === '/projectPro'">
-              <el-breadcrumb-item :to="{ path: '/' }">工作台</el-breadcrumb-item>
-              <el-breadcrumb-item>{{this.$route.matched[0].name}}</el-breadcrumb-item>
+              <el-breadcrumb-item>
+                <span>工作台</span>
+              </el-breadcrumb-item>
             </el-breadcrumb>
             <el-breadcrumb separator-class="el-icon-arrow-right" v-else>
-              <el-breadcrumb-item :to="{ path: '/' }">工作台</el-breadcrumb-item>
               <el-breadcrumb-item v-for="(matched,m) in this.$route.matched" :key="m">
-                {{matched.name}}
+                <span>{{matched.meta.title}}</span>
               </el-breadcrumb-item>
             </el-breadcrumb>
           </div>
@@ -162,7 +159,7 @@ export default {
       height: 59px;
       color: white;
       cursor: pointer;
-      border-bottom: 1px #cccccc solid;
+      //border-bottom: 1px #cccccc solid;
       .logo-image {
         width: 40px;
         height: 40px;
@@ -170,6 +167,7 @@ export default {
         padding-left: 12px;
       }
       .logo-name{
+        font-family: Alibaba PuHuiTi;
         font-size: 20px;
         font-weight: bold;
         padding: 2px;
@@ -200,15 +198,18 @@ export default {
     }
     .header-breadcrumb{
       padding-top: 0.9em;
+      span {
+        cursor: default;
+      }
     }
     .header-menu{
       text-align: right;
     }
   }
   .el-main{
-    padding: 0.6em;
+    padding: 24px;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
   }
   .el-main::-webkit-scrollbar{
     width: 0px;

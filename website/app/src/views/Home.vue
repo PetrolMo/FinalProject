@@ -85,7 +85,7 @@ export default defineComponent({
     //组件卸载后的操作
     //清除定时器，清除闭包函数
     onUnmounted(() => {
-
+      echarts = null
     })
     return{
       name,

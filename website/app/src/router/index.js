@@ -11,51 +11,93 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    meta: {title: '登录',requireAuth: true},
+    meta: {
+      title: '登录',
+      requireAuth: true
+    },
     component: () => import('views/login/Login')
   },
   {
     path: '/register',
     name: 'register',
-    meta: {title: '注册',requireAuth: true},
+    meta: {
+      title: '注册',
+      requireAuth: true
+    },
     component: () => import('views/register/Register')
   },
   {
     path:'/main',
     redirect: '/home',
     icon:'el-icon-s-home',
-    meta:{title:'工作台', requireAuth:true},
+    name: 'home',
+    meta: {
+      title:'首页',
+      requireAuth:true
+    },
     component:Layout,
     children:[
       {
         path:'/home',
-        name: "工作台",
+        name: "home",
         icon: "el-icon-s-home",
-        meta: {title: "工作台", requireAuth: true},
+        meta: {title: "欢迎页", requireAuth: true},
         component: () => import('@/views/Home.vue')
       }
     ],
   },
   {
+    path: '/data',
+    name: 'data',
+    meta: {
+      title: '数据统计',
+      requireAuth: true
+    },
+    icon: 'el-icon-s-data',
+    component: Layout,
+    redirect: '/data-analysis',
+    children: [
+      {
+        path:'/analysis',
+        name: 'analysis',
+        icon: 'el-icon-data-line',
+        meta: {
+          title: '分析页',
+          requireAuth: true
+        },
+        component: () => import('@/views/analysis/index.vue')
+      }
+    ]
+  },
+  {
     path: '/user-manager',
-    name:'用户管理',
-    meta: {title: '用户管理',requireAuth: true},
-    icon:'el-icon-s-claim',
+    name: 'user-manager',
+    meta: {
+      title: '用户管理',
+      requireAuth: true
+    },
+    icon: 'el-icon-s-claim',
     component: Layout,
     redirect: '/user-data',
     children: [
       {
         path: '/user-list',
-        name:'用户列表',
-        icon:'el-icon-s-claim',
-        meta: {title: '用户列表',requireAuth: true},
+        name: 'user-list',
+        icon: 'el-icon-s-claim',
+        meta: {
+          title: '用户列表',
+          requireAuth: true
+        },
         component:() => import('@/views/user/user-list/index')
       },
       {
         path: '/certification-list',
-        name:'认证列表',
-        icon:'el-icon-s-claim',
-        meta: {title: '认证列表',requireAuth: true},
+        name: 'certification-list',
+        icon: 'el-icon-s-claim',
+        meta: {
+          title: '认证列表',
+          requireAuth: true
+        },
         component:() => import('@/views/user/certification-list/index')
       }
     ]

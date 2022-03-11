@@ -4,8 +4,19 @@ function resolve(dir){
   return path.join(__dirname,dir)
 }
 module.exports = {
+  pages: {
+    index: {
+      // page 的入口
+      entry: 'src/main.js',
+      // 模板来源
+      template: 'index.html',
+      filename: 'index.html',
+      // favicon: 'public/favicon.ico',
+      title: '济岛后台'
+    }
+  },
   //修改时不进行lint检查
-  lintOnSave:false,
+  lintOnSave: false,
   publicPath: '/',
   //webpack一些配置
   configureWebpack:{
