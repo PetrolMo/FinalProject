@@ -60,7 +60,9 @@ app.use(expressJWT({
     'public',
     'test',
     '/sts',
-    '/good'
+    '/good',
+    '/good/test_insert',
+    '/good/test_record'
   ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
 })
 );
