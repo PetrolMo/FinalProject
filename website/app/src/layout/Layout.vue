@@ -61,9 +61,13 @@
           </div>
         </el-col>
         <el-col :span="6" :offset="8" class="rightHeader">
-          <div style="float: right">
+          <div style="float: right" class="right">
+            <span class="el-icon-bell item"></span>
             <el-dropdown>
-              <i class="el-icon-user-solid" style="margin-right: 10px"></i>
+              <div class="right">
+                <el-avatar :size="30" :src="avatar" style="margin-right: 8px"></el-avatar>
+                <span>{{userInfo.username}}</span>
+              </div>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item>
@@ -72,7 +76,6 @@
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-            你好！{{userInfo.username}}
           </div>
         </el-col>
       </el-row>
@@ -99,6 +102,7 @@ export default {
     const state = reactive({
       routers:[],
       logo:require('@/assets/logo2.jpg'),
+      avatar: require('@/assets/avatar.jpeg'),
       isCollapse: false,
       asideWidth:'220px',
       defaultHeight:{
@@ -217,6 +221,16 @@ export default {
   .rightHeader{
     //text-align: right;
     font-size: 14px;
+    .right {
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      margin-right: 8px;
+      .item {
+        margin-right: 15px;
+      }
+    }
   }
 }
 </style>

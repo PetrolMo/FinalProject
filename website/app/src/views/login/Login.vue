@@ -3,7 +3,7 @@
     <el-row align="middle">
       <el-col :span="6" :offset="9">
         <el-card shadow="always" class="loginCard">
-          <div class="loginTitle">登录测试中心</div>
+          <div class="loginTitle">登录JiDao Pro</div>
           <div class="logo">
             <el-image class="logo-image" :src="logo" fit="contain"/>
           </div>
@@ -47,9 +47,9 @@
               >登录</el-button>
             </el-form-item>
           </el-form>
-          <div class="registerBtn">
-            <el-button type="text" @click="toRegister">注册账号</el-button>
-          </div>
+<!--          <div class="registerBtn">-->
+<!--            <el-button type="text" @click="toRegister">注册账号</el-button>-->
+<!--          </div>-->
         </el-card>
       </el-col>
     </el-row>
