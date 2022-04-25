@@ -47,25 +47,24 @@ app.use('/images',express.static('./public/images'));
 //         })
 //   }
 // })
-app.use(expressJWT({
-  secret: "1850956@tongji.edu.cn",
-  algorithms:['HS256']
-}).unless({
-  path: [
-    '/register',
-    '/login',
-    '/',
-    '/images',
-    '/public/images',
-    'public',
-    'test',
-    '/sts',
-    '/good',
-    '/good/test_insert',
-    '/good/test_record'
-  ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
-})
-);
+// app.use(expressJWT({
+//   secret: "1850956@tongji.edu.cn",
+//   algorithms:['HS256']
+// }).unless({
+//   path: [
+//     '/register',
+//     '/login',
+//     '/',
+//     '/images',
+//     '/public/images',
+//     'public',
+//     'test',
+//     '/sts',
+//     '/good',
+//     '/good/test_insert',
+//     '/good/test_record'
+//   ] //⽩白名单,除了了这⾥里里写的地址，其他的URL都需要验证
+// }))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
