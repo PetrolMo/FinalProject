@@ -10,7 +10,7 @@ router.get('/userList', (req, res) => {
   const { page = 0, size = 20 } = req.query
   User.countDocuments({}, (error, count) => {
     if (error) {
-      logger.error(`user::/list::error:${JSON.stringify(error)}`)
+      logger(`user::/list::error:${JSON.stringify(error)}`)
       res.json({
         status: 9000,
         msg: JSON.stringify(error)
@@ -18,7 +18,7 @@ router.get('/userList', (req, res) => {
     } else {
       User.find({}).skip((page - 1) * size).limit(parseInt(size) || 20) .sort({ 'created': -1 }).exec((err, doc) => {
         if (err) {
-          logger.error(`user::/list::err:${JSON.stringify(err)}`);
+          logger(`user::/list::err:${JSON.stringify(err)}`);
           res.json({
             status: 9000,
             msg: JSON.stringify(err)
