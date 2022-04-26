@@ -42,6 +42,6 @@ const UserSchema = new Schema({
     type: String,
     default: ''
   }
-})
+},{timestamps: {createdAt: 'created', updatedAt: 'updated'}})
 
 module.exports = mongoose.model('user',UserSchema)

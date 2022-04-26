@@ -70,10 +70,7 @@ router.get('/userList', (req, res) => {
   page = parseInt(page)
   size = parseInt(size)
   User.countDocuments({
-    username:{ $regex : new RegExp(username, 'i') },
-    gender: gender === '-1' ? { $in : [0, 1] }: gender,
-    campus: campus === '-1' ? { $in : [0, 1] }: campus,
-    status: status === '-1' ? { $in : [0, 1] }: status
+    username:{ $regex : new RegExp(username, 'i') }
   }, (error, count) => {
     if (error) {
       logger(`user::/list::error:${JSON.stringify(error)}`)
@@ -84,12 +81,9 @@ router.get('/userList', (req, res) => {
     } else {
       User.find(
         {
-          username:{ $regex : new RegExp(username, 'i') },
-          gender: gender === '-1' ? { $in : [0, 1] }: gender,
-          campus: campus === '-1' ? { $in : [0, 1] }: campus,
-          status: status === '-1' ? { $in : [0, 1] }: status
+          username: { $regex : new RegExp(username, 'i') }
         }
-      ).skip((page - 1) * size).limit(size) .sort({ 'created': -1 }).exec((err, doc) => {
+      ).skip((page - 1) * size).limit(size).sort({ 'created': -1 }).exec((err, doc) => {
         if (err) {
           logger(`user::/list::err:${JSON.stringify(err)}`);
           res.send({

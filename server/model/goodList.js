@@ -9,23 +9,19 @@ const GoodSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    discount: { // 现价
-        type: Number,
-        default: 0,
-    },
     campus: { // 校区
-        type: [String, Number],
+        type: Number,
         default: ''
     },
     images: { // 商品图片
         type: Array,
         default: []
     },
-    post_id: { // 发布者ID
+    user_id: { // 发布者ID
         type: String,
         required: true
     },
-    state: { // 商品状态
+    status: { // 商品状态
         type: Number,
         default: 0
     },
@@ -33,26 +29,17 @@ const GoodSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    good_type: { // 商品类型
-        type: [String, Number],
+    tags: { // 商品类型
+        type: [Array, Number],
         default: ''
     },
-    description: { // 描述
+    desc: { // 描述
         type: String,
         default: ''
     },
-    is_bargaining: { // 是否可砍价
-        type: Boolean,
-        default: false
-    },
-    is_postage: { // 是否邮递
-        type: Boolean,
-        default: false
-    },
-    postage_price: { // 邮费
-        type: Number,
-        default: 0
+    username: { // 用户名
+        type: String,
+        default: ''
     }
-
-})
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}})
 module.exports = mongoose.model('goodList',GoodSchema)

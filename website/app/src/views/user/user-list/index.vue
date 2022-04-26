@@ -15,7 +15,7 @@
             <el-option v-for="item in genderOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item tyle="width: 150px" label="校区">
+        <el-form-item label="校区">
           <el-select v-model="tableData.query.campus" placeholder="请选择校区">
             <el-option v-for="item in campusOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
           </el-select>
@@ -64,10 +64,14 @@
           @current-change="handleCurrentChange"
       />
     </el-card>
-    <el-dialog v-model="openModal" title="编辑用户信息">
+    <el-dialog v-model="openModal" :title="isEdit? '编辑用户信息' : '查看用户信息'">
       <el-form :model="form" label-width="80px">
       <el-row>
         <el-col :span="12">
+          <el-form-item label="用户状态">
+            <el-tag v-if="form.status === 0" type="danger">禁用</el-tag>
+            <el-tag v-else type="success">启用</el-tag>
+          </el-form-item>
             <el-form-item label="用户头像">
               <el-avatar :size="50" :src="form.avatar" />
             </el-form-item>
@@ -84,14 +88,14 @@
                 <el-option v-for="item in [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="出生日期">
-              <el-date-picker :disabled="!isEdit" style="width: 150px" v-model="form.birthday" type="date" placeholder="选择日期" />
-            </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="出生日期">
+            <el-date-picker :disabled="!isEdit" style="width: 150px" v-model="form.birthday" type="date" placeholder="选择日期" />
+          </el-form-item>
           <el-form-item label="电话号码">
             <el-input :disabled="!isEdit" type="" v-model="form.phone" style="width: 200px" autocomplete="off" />
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="用户简介">
             <el-input :disabled="!isEdit" v-model="form.desc"
                       :rows="4"
@@ -116,8 +120,8 @@
 
 <script>
 import { reactive, ref } from "vue";
-import { genderOptions, campusOptions, userQuery, userColumns, statusOptions } from "../constant";
-import { deepCopy, getAge } from "../../../utils";
+import { genderOptions, campusOptions, userQuery, userColumns, statusOptions } from "../../../constant";
+import {deepCopy, getAge, removeProperty} from "../../../utils";
 import { ElNotification } from 'element-plus'
 import axios from "@/utils/axios";
 export default {
@@ -200,8 +204,8 @@ export default {
       const params = {
        ...tableData.query
       }
-      axios.get('/users/userList', { params }).then(({ data }) => {
-        tableData.query.total = data.total
+      axios.get('/users/userList', { params: removeProperty(params) }).then(({ data }) => {
+        tableData.query.total = data.total || 0
         tableData.list = data.data
       })
     }

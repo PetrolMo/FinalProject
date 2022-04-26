@@ -35,11 +35,29 @@ export const campusOptions = [
     label: '沪西校区'
   }
 ]
-export const statusOptions = [
+export const priceOptions = [
   {
-    value: -1,
-    label: '全部'
+    value: 0,
+    label: '0-200'
   },
+  {
+    value: 1,
+    label: '200-500'
+  },
+  {
+    value: 2,
+    label: '500-1000'
+  },
+  {
+    value: 3,
+    label: '1000-2000'
+  },
+  {
+    value: 4,
+    label: '2000以上'
+  }
+]
+export const statusOptions = [
   {
     value: 0,
     label: '禁用'
@@ -51,12 +69,23 @@ export const statusOptions = [
 ]
 export const userQuery = {
   username: '',
-  gender: -1,
-  campus: -1,
+  gender: '',
+  campus: '',
   page: 1,
   size: 10,
   total: 0,
-  status: -1
+  status: ''
+}
+export const goodQuery = {
+  username: '',
+  title: '',
+  date_range: '',
+  price_range: '',
+  campus: '',
+  page: 1,
+  size: 10,
+  total: 0,
+  status: ''
 }
 export const userColumns = [
   {
@@ -106,4 +135,60 @@ export const userColumns = [
     key: "operation",
     align: "left"
   },
+]
+export const goodColumns = [
+  {
+    title: '发布者',
+    key: 'username',
+    width: 140,
+    align: 'center'
+  },
+  {
+    title: '发布时间',
+    key: 'createdAt',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '标题',
+    key: 'title',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '商品描述',
+    key: 'desc',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '商品状态',
+    key: 'status',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '价格',
+    key: 'price',
+    width: 120,
+    align: 'center'
+  },
+  {
+    title: '原价',
+    key: 'origin_price',
+    width: 120,
+    align: 'center'
+  },
+  {
+    title: '校区',
+    key: 'campus',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    width: 250,
+    align: 'center'
+  }
 ]
