@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('../public/javascripts/mongodb')
-const User = require('../model/user')
+const User = require('../model/admin')
 const Token = require('../public/javascripts/token')
 const fs = require('fs')
 const { STS } = require('ali-oss');
