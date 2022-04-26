@@ -6,7 +6,7 @@ import store from '@/store/index'
 const routes = [
   {
     path:'/',
-    redirect:'/home'
+    redirect:'/data'
   },
   {
     path: '/login',
@@ -26,26 +26,26 @@ const routes = [
     },
     component: () => import('views/register/Register')
   },
-  {
-    path:'/main',
-    redirect: '/home',
-    icon:'el-icon-s-home',
-    name: 'home',
-    meta: {
-      title:'首页',
-      requireAuth:true
-    },
-    component:Layout,
-    children:[
-      {
-        path:'/home',
-        name: "home",
-        icon: "el-icon-s-home",
-        meta: {title: "欢迎页", requireAuth: true},
-        component: () => import('@/views/Home.vue')
-      }
-    ],
-  },
+  // {
+  //   path:'/main',
+  //   redirect: '/home',
+  //   icon:'el-icon-s-home',
+  //   name: 'home',
+  //   meta: {
+  //     title:'首页',
+  //     requireAuth:true
+  //   },
+  //   component:Layout,
+  //   children:[
+  //     {
+  //       path:'/home',
+  //       name: "home",
+  //       icon: "el-icon-s-home",
+  //       meta: {title: "欢迎页", requireAuth: true},
+  //       component: () => import('@/views/Home.vue')
+  //     }
+  //   ],
+  // },
   {
     path: '/data',
     name: 'data',
@@ -55,7 +55,7 @@ const routes = [
     },
     icon: 'el-icon-s-data',
     component: Layout,
-    redirect: '/data-analysis',
+    redirect: '/analysis',
     children: [
       {
         path:'/analysis',
@@ -78,7 +78,6 @@ const routes = [
     },
     icon: 'el-icon-s-claim',
     component: Layout,
-    redirect: '/user-data',
     children: [
       {
         path: '/user-list',
@@ -89,16 +88,50 @@ const routes = [
           requireAuth: true
         },
         component:() => import('@/views/user/user-list/index')
-      },
+      }
+    ]
+  },
+  {
+    path: '/good-manager',
+    name: 'good-manager',
+    meta: {
+      title: '商品管理',
+      requireAuth: true
+    },
+    icon: 'el-icon-s-claim',
+    component: Layout,
+    children: [
       {
-        path: '/certification-list',
+        path: '/good-list',
+        name: 'good-list',
+        icon: 'el-icon-s-claim',
+        meta: {
+          title: '商品列表',
+          requireAuth: true
+        },
+        component:() => import('@/views/good/good-list/index')
+      }
+    ]
+  },
+  {
+    path: '/certification',
+    name: 'certification',
+    icon: 'el-icon-s-claim',
+    meta: {
+      title: '认证管理',
+      requireAuth: true
+    },
+    component: Layout,
+    children: [
+      {
+        path: '/certification-data',
         name: 'certification-list',
         icon: 'el-icon-s-claim',
         meta: {
           title: '认证列表',
           requireAuth: true
         },
-        component:() => import('@/views/user/certification-list/index')
+        component:() => import('@/views/certification/index')
       }
     ]
   }

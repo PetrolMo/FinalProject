@@ -1,19 +1,14 @@
 import axios from "axios";
 import router from "@/router/index";
 import store from '@/store/index'
+import config from '@/config/index'
 import { ElMessage } from 'element-plus'
-//创建实例
-
-const service = axios.create({
- baseURL:'http://106.13.227.221:3000'
- //  baseURL: process.env.NODE_ENV === 'production'
- //    ? 'http://106.13.227.221:3000'
- //    : 'http://localhost:3000',
- //  timeout:10000
-})
-
+// 域名配置
+axios.defaults.baseURL = config[process.env.NODE_ENV].baseUrl
+// 默认 post 请求，使用 multipart/form-data 形式
+axios.defaults.headers.post["Content-Type"] = "multipart/form-data;charset=UTF-8";
 //创建发起请求前的拦截器
-service.interceptors.request.use(function (config){
+axios.interceptors.request.use(function (config){
   const token = store.state.token;
   console.log("这是"+config.url+"请求的请求体内容",config)
   if(config.url === '/login'|| config.url === '/register') {
@@ -32,16 +27,17 @@ service.interceptors.request.use(function (config){
       });
     })
     return Promise.reject('请先登陆后操作')
+  } else {
+    config.headers.Authorization = store.getters.bearerToken
   }
-  token && (config.headers.Authorization = store.getters.bearerToken);
-  return config;
+  return config
 },function (error){
   console.log("请求发生错误！")
   return Promise.reject(error)
 })
 
 //收到回复时的拦截器
-service.interceptors.response.use(response => {
+axios.interceptors.response.use(response => {
     const config = response.config
     console.log("这是"+config.url+"请求的返回结果",response)
     return response
@@ -85,4 +81,4 @@ service.interceptors.response.use(response => {
     return Promise.reject(error)
   }
 )
-export default service
+export default axios.create()

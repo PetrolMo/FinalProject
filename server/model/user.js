@@ -6,12 +6,16 @@ const UserSchema = new Schema({
     type:String,
     required:true
   },
+  status: {
+    type: Number,
+    default: 1
+  },
   password: {
     type:String,
-    required: true,
-    set(value) {
-      return secretPSW.hashSync(value,10)
-    }
+    // required: true,
+    // set(value) {
+    //   return secretPSW.hashSync(value,10)
+    // }
   },
   gender: {
     type: Number,

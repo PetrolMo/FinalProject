@@ -1,4 +1,4 @@
-import request from './network'
+import request from './axios'
 
 export function login(data){
   return request({

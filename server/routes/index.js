@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('../public/javascripts/mongodb')
-const User = require('../model/admin')
+const Admin = require('../model/admin')
 const Token = require('../public/javascripts/token')
 const fs = require('fs')
 const { STS } = require('ali-oss');
@@ -17,7 +17,7 @@ const multiparty = require('multiparty');
 // var client = new AipImageProcessClient(APP_ID, API_KEY, SECRET_KEY);
 mongo()
 router.get('/', function(req, res, next) {
-  User.findOne({
+  Admin.findOne({
     user:'admin'
   }).then(_res => {
     res.json(_res)
@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 //注册功能
 router.post('/register',async (req,res) =>{
   //首先检查数据库中是否已经存在用户
-  const user = await User.findOne({
+  const user = await Admin.findOne({
     user:req.body.username
   })
   if(user){
@@ -36,7 +36,7 @@ router.post('/register',async (req,res) =>{
       type:'hasExisted'
     })
   }else{
-    User.create({
+    Admin.create({
       user:req.body.username,
       password:req.body.password
     }).then(_res => {
@@ -55,7 +55,7 @@ router.post('/register',async (req,res) =>{
 
 //登录功能
 router.post('/login',async (req,res) => {
-  const user = await User.findOne({
+  const user = await Admin.findOne({
     user:req.body.username
   })
   if(!user) {

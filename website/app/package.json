@@ -18,7 +18,9 @@
     "echarts": "^5.1.1",
     "echarts-stat": "^1.2.0",
     "element-plus": "^1.0.2-beta.28",
+    "moment": "^2.29.3",
     "nprogress": "^0.2.0",
+    "underscore": "^1.13.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0"

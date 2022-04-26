@@ -5,7 +5,7 @@
       <div class="aside-logo" @click="onRefresh">
         <el-image class="logo-image" :src="logo" fit="contain"/>
         <span :class="[isCollapse ? 'is-collapse' : '']">
-                    <span class="logo-name">JiDao Pro</span>
+                    <span class="logo-name">JiDao Admin</span>
                     <span></span>
                 </span>
       </div>
