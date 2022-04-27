@@ -114,6 +114,26 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="商品图片">
+        <el-upload
+            action="https://jsonplaceholder.typicode.com/posts/"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
+            :before-upload="handleUpload"
+            accept="image/png, image/jpeg, image/jpg"
+            :file-list="fileList"
+            :limit="9"
+        >
+          <template #default>
+            <span style="font-size: 28px;">+</span>
+          </template>
+        </el-upload>
+        <el-dialog v-model="dialogVisible">
+          <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
+        </el-dialog>
+        </el-form-item>
       </el-form>
       <template #footer>
       <span class="dialog-footer">
@@ -129,6 +149,7 @@
 
 <script>
 import { reactive, ref } from "vue";
+import OSS from 'ali-oss'
 import { genderOptions, campusOptions, goodQuery, goodColumns, statusOptions, priceOptions } from "../../../constant";
 import {deepCopy, getAge, removeProperty} from "../../../utils";
 import { ElNotification } from 'element-plus'
@@ -137,6 +158,33 @@ import moment from "moment";
 export default {
   name: "UserList",
   setup () {
+    let client = {}
+    function getSts() {
+      return new Promise(resolve => {
+        axios.get('/sts').then(res => {
+          resolve(res.data)
+        })
+      })
+    }
+    getSts().then(res => {
+      client = new OSS({
+        // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
+        region: 'oss-cn-beijing',
+        // 从STS服务获取的临时访问密钥（AccessKey ID和AccessKey Secret）。
+        accessKeyId: res.AccessKeyId,
+        accessKeySecret: res.AccessKeySecret,
+        // 从STS服务获取的安全令牌（SecurityToken）。
+        stsToken: res.SecurityToken,
+        refreshSTSToken: async () => {
+          // 向您搭建的STS服务获取临时访问凭证。
+          return getSts()
+        },
+        // 刷新临时访问凭证的时间间隔，单位为毫秒。
+        refreshSTSTokenInterval: 300000,
+        // 填写Bucket名称。
+        bucket: 'store-front-img'
+      })
+    })
     let tableData = reactive({
       query: deepCopy(goodQuery),
       list: []
@@ -268,6 +316,56 @@ export default {
     function getDate (date) {
       return moment(date).format('YYYY.MM.DD HH:mm')
     }
+    const fileList = ref([
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      },
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      },
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      },
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      },
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      },
+      {
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+      }
+    ])
+
+    const dialogImageUrl = ref('')
+    const dialogVisible = ref(false)
+
+    function handleRemove (uploadFile, uploadFiles) {
+      console.log(uploadFile, uploadFiles)
+    }
+
+    function handlePictureCardPreview (uploadFile) {
+      dialogImageUrl.value = uploadFile.url
+      dialogVisible.value = true
+    }
+    function handleChange (data) {
+      console.log(data)
+    }
+    function handleUpload (file) {
+      const filename = moment().format('YYYYMMDD') + file.name
+      client.multipartUpload(filename, file).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+      return false
+    }
     return {
       ...reactive({
         genderOptions,
@@ -293,7 +391,14 @@ export default {
       viewInfo,
       submit,
       shortcuts,
-      getDate
+      getDate,
+      fileList,
+      handlePictureCardPreview,
+      handleRemove,
+      dialogVisible,
+      dialogImageUrl,
+      handleUpload,
+      handleChange
     }
   }
 }

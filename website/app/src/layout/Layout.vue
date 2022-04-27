@@ -129,7 +129,7 @@ export default {
       }
     }
     const onRefresh = () => {
-      router.push({ path: 'main'})
+      router.push({ path: '/'})
     }
     const logout = () => {
       localStorage.setItem('username', '')
