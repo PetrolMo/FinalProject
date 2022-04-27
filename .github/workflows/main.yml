@@ -23,7 +23,7 @@ jobs:
             git fetch --all
             git reset --hard origin/main
             git pull
-            cd wesite/app
+            cd /wesite/app
             npm install
             npm run build
             nginx -s reload
