@@ -30,7 +30,7 @@ const GoodSchema = new mongoose.Schema({
         default: ''
     },
     tags: { // 商品类型
-        type: [Array, Number],
+        type: Array,
         default: ''
     },
     desc: { // 描述

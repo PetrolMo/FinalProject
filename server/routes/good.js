@@ -163,8 +163,9 @@ router.get('/remove', (req, res) => {
 })
 router.get('/goodList',(req,res) => {
     // 筛选条件 商品名称 title 商品价格区间price_range // 校区campus // 发布时间 date_range // 发布者名称 username // 商品状态 status
-    let { page = '1', size = '10' } = req.query
+    let { page = '1', size = '10', type } = req.query
     page = parseInt(page)
+    type = parseInt(type)
     size = parseInt(size)
     const filters = {
         ...req.query
@@ -176,6 +177,10 @@ router.get('/goodList',(req,res) => {
         filters.created = { $gte: moment(req.query.date_begin).startOf('day'), $lt: moment(req.query.date_end).endOf('day')}
         delete filters.date_begin
         delete filters.date_end
+    }
+    if (type) {
+        filters.status = { $ne: 0 }
+        delete filters.type
     }
     if (req.query.price_range) {
         filters.price = {
