@@ -97,7 +97,6 @@ router.get('/sts', (req, res) => {
     accessKeySecret: 'HA11GPL5z160qG8Cw7mnccE556APSs'
   });
   sts.assumeRole('acs:ram::1633491245060972:role/moyizhi', '', '3600', 'sessionName').then((result) => {
-    console.log(result);
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-METHOD', 'GET');
     res.send({

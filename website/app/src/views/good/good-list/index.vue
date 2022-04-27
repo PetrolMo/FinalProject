@@ -158,7 +158,7 @@ import { ElNotification } from 'element-plus'
 import axios from "@/utils/axios";
 import moment from "moment";
 export default {
-  name: "UserList",
+  name: "GoodList",
   setup () {
     let client = {}
     function getSts() {

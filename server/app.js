@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const goodRouter = require('./routes/good');
+const certificationRouter = require('./routes/certificate')
 const qiniuRouter = require('./routes/qiniuCloud')
 const appTestRouter = require('./routes/apptest')
 const testRouter = require('./routes/test')
@@ -72,6 +73,7 @@ app.use('/good',goodRouter);
 app.use('/getOss',qiniuRouter);
 app.use('/uploadTest',appTestRouter)
 app.use('/test',testRouter)
+app.use('/cert', certificationRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

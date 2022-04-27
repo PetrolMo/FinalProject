@@ -67,6 +67,20 @@ export const statusOptions = [
     label: '启用'
   }
 ]
+export const certificationStatusOptions =[
+  {
+    value: -1,
+    label: '已拒绝'
+  },
+  {
+    value: 0,
+    label: '待审核'
+  },
+  {
+    value: 1,
+    label: '已通过'
+  }
+]
 export const userQuery = {
   username: '',
   gender: '',
@@ -87,7 +101,23 @@ export const goodQuery = {
   total: 0,
   status: ''
 }
+export const certQuery = {
+  username: '',
+  campus_id: '',
+  date_range: '',
+  price_range: '',
+  page: 1,
+  size: 10,
+  total: '',
+  status: ''
+}
 export const userColumns = [
+  {
+    title:"用户头像",
+    key:"avatar",
+    align:"center",
+    width: 100,
+  },
   {
     title:"用户名",
     key:"username",
@@ -133,6 +163,7 @@ export const userColumns = [
   {
     title: "操作",
     key: "operation",
+    width: 240,
     align: "left"
   },
 ]
@@ -183,6 +214,50 @@ export const goodColumns = [
     title: '校区',
     key: 'campus',
     width: 100,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    width: 250,
+    align: 'center'
+  }
+]
+export const certColumns = [
+  {
+    title: '发起者',
+    key: 'username',
+    width: 140,
+    align: 'center'
+  },
+  {
+    title: '发起时间',
+    key: 'createdAt',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '姓名',
+    key: 'name',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '学号',
+    key: 'campus_id',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '认证状态',
+    key: 'status',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '认证描述',
+    key: 'desc',
+    width: 150,
     align: 'center'
   },
   {

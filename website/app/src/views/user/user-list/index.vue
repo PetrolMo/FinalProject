@@ -33,6 +33,9 @@
             <span v-if="item.key === 'age'">
               {{getAge(scope.row.birthday)[0]}}
             </span>
+            <span v-else-if="item.key === 'avatar'">
+              <el-avatar :size="50" fit="fill" :src="scope.row.avatar" />
+            </span>
             <span v-else-if="item.key === 'status'">
               <el-tag v-if="scope.row.status === 0" type="danger">禁用</el-tag>
               <el-tag v-else type="success">启用</el-tag>
