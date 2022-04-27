@@ -66,12 +66,19 @@ router.get('/',(req,res) => {
 })
 // 获取用户列表
 router.get('/userList', (req, res) => {
-  let { page, size, username, gender, campus , status } = req.query
+  let { page, size } = req.query
   page = parseInt(page)
   size = parseInt(size)
-  User.countDocuments({
-    username:{ $regex : new RegExp(username, 'i') }
-  }, (error, count) => {
+  const filters = {
+    ...req.query
+  }
+  delete filters.page
+  delete filters.size
+  delete filters.total
+  if (req.query.username) {
+    filters.username = { $regex : new RegExp(req.query.username, 'i') }
+  }
+  User.countDocuments(filters, (error, count) => {
     if (error) {
       logger(`user::/list::error:${JSON.stringify(error)}`)
       res.json({
@@ -80,9 +87,7 @@ router.get('/userList', (req, res) => {
       })
     } else {
       User.find(
-        {
-          username: { $regex : new RegExp(username, 'i') }
-        }
+        filters
       ).skip((page - 1) * size).limit(size).sort({ 'created': -1 }).exec((err, doc) => {
         if (err) {
           logger(`user::/list::err:${JSON.stringify(err)}`);
