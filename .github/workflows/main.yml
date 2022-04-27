@@ -23,10 +23,13 @@ jobs:
             git fetch --all
             git reset --hard origin/main
             git pull
-            cd /root/Junior-Year-Program/wesite/app
+            cd wesite
+            cd app
             npm install
             npm run build
             nginx -s reload
-            cd /root/Junior-Year-Program/server
+            cd ../
+            cd ../
+            cd server
             npm run install
             pm2 restart all
