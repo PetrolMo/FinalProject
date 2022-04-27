@@ -35,7 +35,7 @@ module.exports = {
   },
   // webpack-dev-server 相关配置
   devServer: {
-    disableHostCheck: true,
+    disableHostCheck: false,
     host: '127.0.0.1',
     port: 8005,
     overlay: {

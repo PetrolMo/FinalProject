@@ -73,7 +73,18 @@
             <el-tag v-else type="success">启用</el-tag>
           </el-form-item>
             <el-form-item label="用户头像">
-              <el-avatar :size="50" :src="form.avatar" />
+              <el-upload
+                  action="#"
+                  :limit="1"
+                  :file-list="images"
+                  :on-remove="handleRemove"
+                  :before-upload="handleUpload"
+                  multiple
+                  accept="image/png, image/jpeg, image/jpg"
+                  :disabled="!isEdit"
+              >
+                <el-avatar :size="50" fit="contain" :src="form.avatar" />
+              </el-upload>
             </el-form-item>
             <el-form-item label="用户名">
               <el-input :disabled="!isEdit" v-model="form.username" style="width: 200px" autocomplete="off" />
@@ -124,9 +135,39 @@ import { genderOptions, campusOptions, userQuery, userColumns, statusOptions } f
 import {deepCopy, getAge, removeProperty} from "../../../utils";
 import { ElNotification } from 'element-plus'
 import axios from "@/utils/axios";
+import moment from "moment";
+import OSS from "ali-oss";
 export default {
   name: "UserList",
   setup () {
+    let client = {}
+    function getSts() {
+      return new Promise(resolve => {
+        axios.get('/sts').then(res => {
+          resolve(res.data)
+        })
+      })
+    }
+    getSts().then(res => {
+      client = new OSS({
+        // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
+        region: 'oss-cn-beijing',
+        // 从STS服务获取的临时访问密钥（AccessKey ID和AccessKey Secret）。
+        accessKeyId: res.AccessKeyId,
+        accessKeySecret: res.AccessKeySecret,
+        // 从STS服务获取的安全令牌（SecurityToken）。
+        stsToken: res.SecurityToken,
+        secure: true,
+        refreshSTSToken: async () => {
+          // 向您搭建的STS服务获取临时访问凭证。
+          return getSts()
+        },
+        // 刷新临时访问凭证的时间间隔，单位为毫秒。
+        refreshSTSTokenInterval: 300000,
+        // 填写Bucket名称。
+        bucket: 'store-front-avatar'
+      })
+    })
     let tableData = reactive({
       query: deepCopy(userQuery),
       list: []
@@ -233,6 +274,25 @@ export default {
         refresh()
       })
     }
+    const dialogImageUrl = ref('')
+    const dialogVisible = ref(false)
+    const images = ref([])
+    function handleRemove (uploadFile, uploadFiles) {
+      form.value.images = uploadFiles
+    }
+    function handlePictureCardPreview (uploadFile) {
+      dialogImageUrl.value = uploadFile.url
+      dialogVisible.value = true
+    }
+    function handleUpload (file) {
+      const filename = moment().format('YYYYMMDD') + file.name
+      client.put(filename, file).then(res => {
+        form.value.avatar = res.url
+      }).catch(err => {
+        console.log(err)
+      })
+      return false
+    }
     return {
       ...reactive({
         genderOptions,
@@ -256,7 +316,13 @@ export default {
       form,
       editInfo,
       viewInfo,
-      submit
+      submit,
+      handleRemove,
+      handleUpload,
+      handlePictureCardPreview,
+      dialogVisible,
+      dialogImageUrl,
+      images
     }
   }
 }

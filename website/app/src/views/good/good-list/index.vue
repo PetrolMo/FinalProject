@@ -116,17 +116,19 @@
         </el-row>
         <el-form-item label="商品图片">
         <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="#"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             :on-change="handleChange"
             :before-upload="handleUpload"
+            multiple
             accept="image/png, image/jpeg, image/jpg"
-            :file-list="fileList"
+            :file-list="form.images"
+            :disabled="!isEdit"
             :limit="9"
         >
-          <template #default>
+          <template #default v-if="isEdit">
             <span style="font-size: 28px;">+</span>
           </template>
         </el-upload>
@@ -175,6 +177,7 @@ export default {
         accessKeySecret: res.AccessKeySecret,
         // 从STS服务获取的安全令牌（SecurityToken）。
         stsToken: res.SecurityToken,
+        secure: true,
         refreshSTSToken: async () => {
           // 向您搭建的STS服务获取临时访问凭证。
           return getSts()
@@ -182,7 +185,7 @@ export default {
         // 刷新临时访问凭证的时间间隔，单位为毫秒。
         refreshSTSTokenInterval: 300000,
         // 填写Bucket名称。
-        bucket: 'store-front-img'
+        bucket: 'store-front-avatar'
       })
     })
     let tableData = reactive({
@@ -316,51 +319,23 @@ export default {
     function getDate (date) {
       return moment(date).format('YYYY.MM.DD HH:mm')
     }
-    const fileList = ref([
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      },
-      {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-      }
-    ])
 
     const dialogImageUrl = ref('')
     const dialogVisible = ref(false)
 
     function handleRemove (uploadFile, uploadFiles) {
-      console.log(uploadFile, uploadFiles)
+      form.value.images = uploadFiles
     }
-
     function handlePictureCardPreview (uploadFile) {
       dialogImageUrl.value = uploadFile.url
       dialogVisible.value = true
     }
-    function handleChange (data) {
-      console.log(data)
+    function handleChange () {
     }
     function handleUpload (file) {
       const filename = moment().format('YYYYMMDD') + file.name
-      client.multipartUpload(filename, file).then(res => {
-        console.log(res)
+      client.put(filename, file).then(res => {
+        form.value.images.push(res)
       }).catch(err => {
         console.log(err)
       })
@@ -387,12 +362,11 @@ export default {
       openModal,
       isEdit,
       form,
+      getDate,
       editInfo,
       viewInfo,
       submit,
       shortcuts,
-      getDate,
-      fileList,
       handlePictureCardPreview,
       handleRemove,
       dialogVisible,

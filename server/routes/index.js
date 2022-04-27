@@ -100,7 +100,7 @@ router.get('/sts', (req, res) => {
     console.log(result);
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-METHOD', 'GET');
-    res.json({
+    res.send({
       AccessKeyId: result.credentials.AccessKeyId,
       AccessKeySecret: result.credentials.AccessKeySecret,
       SecurityToken: result.credentials.SecurityToken,
