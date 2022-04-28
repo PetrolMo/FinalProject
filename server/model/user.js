@@ -10,24 +10,23 @@ const UserSchema = new Schema({
     type: Number,
     default: 1
   },
-  password: {
-    type:String,
-    // required: true,
-    // set(value) {
-    //   return secretPSW.hashSync(value,10)
-    // }
-  },
+  // password: {
+  //   type:String,
+  //   // required: true,
+  //   // set(value) {
+  //   //   return secretPSW.hashSync(value,10)
+  //   // }
+  // },
   gender: {
     type: Number,
-    required: true
+    default: 0
   },
   phone: {
     type: String,
-    required: true
+    default: '110'
   },
   desc: {
     type: String,
-    required: false,
     default: '暂无个人简介'
   },
   birthday: {
@@ -36,7 +35,7 @@ const UserSchema = new Schema({
   },
   campus: {
     type: Number,
-    required: true
+    default: 0
   },
   avatar: {
     type: String,

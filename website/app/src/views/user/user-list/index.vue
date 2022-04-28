@@ -104,6 +104,9 @@
             </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label="用户id">
+            {{form._id}}
+          </el-form-item>
           <el-form-item label="出生日期">
             <el-date-picker :disabled="!isEdit" style="width: 150px" v-model="form.birthday" type="date" placeholder="选择日期" />
           </el-form-item>

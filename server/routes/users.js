@@ -19,50 +19,17 @@ const mockUser = [
     phone: '18019057975',
     campus: 0,
     status: 1
-  },
-  {
-    username: moment(new Date()).format('ss'),
-    password: new Date().getTime(),
-    gender: 0,
-    phone: '18019057975',
-    campus: 0,
-    status: 0
-  },
-  {
-    username: moment(new Date()).format('ss'),
-    password: new Date().getTime(),
-    gender: 0,
-    phone: '18019057975',
-    campus: 0,
-    status: 1
-  },
-  {
-    username: moment(new Date()).format('ss'),
-    password: new Date().getTime(),
-    gender: 0,
-    phone: '18019057975',
-    campus: 0,
-    status: 1
-  },
-  {
-    username: moment(new Date()).format('ss'),
-    password: new Date().getTime(),
-    gender: 0,
-    phone: '18019057975',
-    campus: 0,
-    status: 0
-  },
-  {
-    username: moment(new Date()).format('ss'),
-    password: new Date().getTime(),
-    gender: 0,
-    phone: '18019057975',
-    campus: 0,
-    status: 0
   }
 ]
 router.get('/',(req,res) => {
-  res.send("hello")
+  const _id = req.query._id
+  User.findById(_id).then(data => {
+    res.send({
+      result: data
+    })
+  }).catch(err => {
+    res.send(err)
+  })
 })
 // 获取用户列表
 router.get('/userList', (req, res) => {
@@ -164,6 +131,17 @@ router.get('/remove', (req, res) => {
     })
   }).catch(err => {
     logger(err)
+  })
+})
+// 随机创建用户
+router.post('/random', (req, res) => {
+  User.create(req.body).then(data => {
+    res.send(data)
+  }).catch(err => {
+    res.send({
+      msg: '创建失败',
+      err
+    })
   })
 })
 module.exports = router

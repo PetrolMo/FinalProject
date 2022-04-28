@@ -113,6 +113,12 @@ export const certQuery = {
 }
 export const userColumns = [
   {
+    title:"用户id",
+    key:"_id",
+    align:"center",
+    width: 150,
+  },
+  {
     title:"用户头像",
     key:"avatar",
     align:"center",
@@ -169,10 +175,22 @@ export const userColumns = [
 ]
 export const goodColumns = [
   {
+    title:"商品id",
+    key:"_id",
+    align:"center",
+    width: 150,
+  },
+  {
     title: '发布者',
     key: 'username',
     width: 140,
     align: 'center'
+  },
+  {
+    title:"发布者id",
+    key:"user_id",
+    align:"center",
+    width: 150,
   },
   {
     title: '发布时间',

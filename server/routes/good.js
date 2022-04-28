@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const Good = require('../model/goodList')
-const token = require('../public/javascripts/token')
 const logger = require('morgan')
 const moment = require("moment");
 const User = require("../model/user");
+const Reply = require('../model/reply')
 /**
  * @api {post} /good 添加商品
  * @apiDescription 添加商品
@@ -23,112 +23,15 @@ const User = require("../model/user");
  */
 const mockGood = [
     {
+        user: '626a4029ec3b22c2d4f363de',
         price: 999,
         origin_price: 1000,
         campus: 0, // 0四平 1嘉定 2彰武 3忽西
         images: [],
         status: 0, // 0发布中 1已出售 2已下架 3出售中
         title: '商品标题',
-        tags: ['私人'], // 0球鞋
         desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
-    },
-    {
-        price: 999,
-        origin_price: 1000,
-        campus: 0, // 0四平 1嘉定 2彰武 3忽西
-        images: [],
-        status: 0, // 0发布中 1已出售 2已下架 3出售中
-        title: '商品标题',
-        tags: ['私人'], // 0球鞋
-        desc: '这是一双球鞋',
-        user_id: '62681f0738a28530516fb0ba',
-        username: '用户'
+        good_type: 0
     }
 ]
 const priceOption = {
@@ -195,9 +98,10 @@ router.get('/goodList',(req,res) => {
     Good.countDocuments(filters).then((count) => {
         Good
           .find(filters)
+          .populate('user', 'username avatar')
           .skip((page - 1) * size)
           .limit(size)
-          .sort({ 'created' : -1 })
+          .sort({ 'updated' : -1 })
           .then(data => {
               res.send({
                   status: 200,
@@ -252,6 +156,40 @@ router.post('/edit', (req, res) => {
             msg: '修改成功'
         })
     })
+})
+router.post('/msg', (req, res) => {
+    const data = req.body
+    Reply.create({
+        user: data.user,
+        message: data.message,
+        good: data.good
+    }).then(_res => {
+        res.send(_res)
+    }).catch(err => res.send(err))
+})
+router.get('/removeMsg', (req, res) => {
+    Reply.remove().then(_res => {
+        res.send(_res)
+    })
+})
+router.get('/queryMsg', (req, res) => {
+    Reply
+      .find({
+        good: req.query.good
+      })
+      .sort({ 'like_count': -1 })
+      .populate('user', 'username avatar').then(data => {
+        res.send({ result: data })
+    })
+})
+router.post('/like', (req, res) => {
+    Reply.findByIdAndUpdate(req.body._id, {
+        $inc: {
+            like_count: req.body.num
+        }
+    }).then(() => {
+        res.send('点赞成功')
+    }).catch(err => res.send(err))
 })
 module.exports = router
 
