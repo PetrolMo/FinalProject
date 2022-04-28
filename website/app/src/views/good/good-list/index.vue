@@ -48,6 +48,12 @@
               <el-tag v-if="scope.row.status === 0" type="danger">禁用</el-tag>
               <el-tag v-else type="success">启用</el-tag>
             </span>
+            <span v-else-if="item.key === 'username'">
+              {{scope.row.user.username}}
+            </span>
+            <span v-else-if="item.key === 'user_id'">
+              {{scope.row.user._id}}
+            </span>
             <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
             </span>
@@ -80,7 +86,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="发布者名称">
-              <el-input :disabled="true" v-model="form.username" style="width: 200px" autocomplete="off" />
+              <el-input :disabled="!isEdit" v-model="form.user.username" style="width: 200px" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="发布者id">
+              <el-input :disabled="!isEdit" v-model="form.user._id" style="width: 200px" autocomplete="off" />
             </el-form-item>
             <el-form-item label="发布时间">
               <el-date-picker :disabled="true" style="width: 150px" v-model="form.created" type="date" placeholder="选择日期" />
@@ -278,6 +287,7 @@ export default {
       openModal.value = true
     }
     function submit () {
+      form.user = form.user_id
       axios.post('/good/edit', { ...form.value }).then(() => {
         openModal.value = false
         ElNotification({

@@ -65,7 +65,7 @@ const GoodSchema = new mongoose.Schema({
     user: { // 发布者ID
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
-        required: true
+        default: '626a82c11dff931643f54226' // 线上环境
     },
     mark_count: { type: Number, default: 0 } // 收藏数
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}})
