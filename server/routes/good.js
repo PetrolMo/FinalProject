@@ -64,6 +64,12 @@ router.get('/remove', (req, res) => {
         })
     })
 })
+router.post('/post', (req, res) => {
+    const data = req.body
+    Good.create(data).then(_res => {
+        res.send(_res)
+    }).catch(err => res.send(err))
+})
 router.get('/goodList',(req,res) => {
     // 筛选条件 商品名称 title 商品价格区间price_range // 校区campus // 发布时间 date_range // 发布者名称 username // 商品状态 status
     let { page = '1', size = '10', type } = req.query

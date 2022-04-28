@@ -47,12 +47,12 @@ const GoodSchema = new mongoose.Schema({
         default: []
     },
     can_discount: {
-        type: Boolean,
-        default: true
+        type: Number,
+        default: 1
     },
     status: { // 商品状态
         type: Number,
-        default: 0
+        default: 1
     },
     title: { // 标题
         type: String,

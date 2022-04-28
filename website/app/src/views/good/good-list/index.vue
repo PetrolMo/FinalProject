@@ -49,10 +49,10 @@
               <el-tag v-else type="success">启用</el-tag>
             </span>
             <span v-else-if="item.key === 'username'">
-              {{scope.row.user.username}}
+              {{scope.row.user?.username || ''}}
             </span>
             <span v-else-if="item.key === 'user_id'">
-              {{scope.row.user._id}}
+              {{scope.row.user?._id || ''}}
             </span>
             <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
