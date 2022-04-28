@@ -23,7 +23,7 @@ const Reply = require('../model/reply')
  */
 const mockGood = [
     {
-        user: '626a8a7ee51a5f76629b4cd9',
+        user: '626a82c11dff931643f54226',
         price: 999,
         origin_price: 1000,
         campus: 0, // 0四平 1嘉定 2彰武 3忽西
