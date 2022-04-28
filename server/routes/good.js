@@ -101,6 +101,8 @@ router.get('/goodList',(req,res) => {
     delete filters.page
     delete filters.size
     delete filters.total
+    delete filters.discount0
+    delete filters.discount1
     Good.countDocuments(filters).then((count) => {
         Good
           .find(filters)
