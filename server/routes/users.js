@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const User = require('../model/user')
+const Follow = require('../model/flollow')
+const Reply = require('../model/reply')
 const logger = require('morgan')
 const moment = require('moment')
 const mockUser = [
@@ -30,6 +33,10 @@ router.get('/',(req,res) => {
   }).catch(err => {
     res.send(err)
   })
+})
+router.get('/queryUser', (req, res) => {
+  const _id = req.query._id
+  User.findById(_id).then(_res => res.send(_res))
 })
 // 获取用户列表
 router.get('/userList', (req, res) => {
@@ -143,5 +150,87 @@ router.post('/random', (req, res) => {
       err
     })
   })
+})
+router.get('/fanList', (req, res) => {
+  const user = req.query.user
+  Follow.find({
+    follow: user
+  }).sort({ 'created': -1 })
+    .populate('user',  '')
+    .then(_res => res.send(_res))
+    .catch(err => res.send(err))
+})
+router.get('/followList', (req, res) => {
+  const user = req.query.user
+  Follow.find({
+    user: user
+  }).sort({ 'created': -1 })
+    .populate('follow',  '')
+    .then(_res => res.send(_res))
+    .catch(err => res.send(err))
+})
+router.post('/follow', (req, res) => {
+  const { user, follow } = req.body
+  // 'user' wants to follow 'follow'
+  Follow.find({
+    $and:[
+      {
+        user: user
+      },
+      {
+        follow: follow
+      }
+    ]
+  }).then(_res => {
+    if (_res.length === 0) {
+      Follow.create({
+        user: user,
+        follow: follow
+      }).then(() => {
+        res.send(true)
+      })
+    } else {
+      Follow.findByIdAndRemove(_res[0]._id).then(() => {
+        res.send(false)
+      })
+    }
+  })
+})
+router.get('/checkFollow', (req, res) => {
+  const { user, follow } = req.query
+  Follow.find({
+    $and: [
+      {
+        user: user
+      },
+      {
+        follow: follow
+      }
+    ]
+  }).then(_res => {
+    if (_res.length !== 0) {
+      res.send(true)
+    } else {
+      res.send(false)
+    }
+  })
+})
+router.get('/queryLikeCount', (req, res) => {
+  const user = req.query._id
+  Reply.aggregate([
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(user)
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        amount: { $sum: '$like_count' }
+      }
+    }
+    ]).then(data => {
+      res.send(data)
+  }).catch(err => res.send(err))
 })
 module.exports = router

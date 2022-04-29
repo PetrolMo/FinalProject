@@ -5,6 +5,8 @@ const logger = require('morgan')
 const moment = require("moment");
 const User = require("../model/user");
 const Reply = require('../model/reply')
+const Mark = require('../model/mark')
+const Follow = require('../model/flollow')
 /**
  * @api {post} /good 添加商品
  * @apiDescription 添加商品
@@ -198,6 +200,84 @@ router.post('/like', (req, res) => {
     }).then(() => {
         res.send('点赞成功')
     }).catch(err => res.send(err))
+})
+router.get('/postList', (req, res) => {
+    const user_id = req.query.user_id
+    Good.find({
+        user: user_id
+    }).sort({ 'created': -1 }).then(_res => {
+        res.send(_res)
+    })
+})
+router.post('/mark', (req, res) => {
+    const { user, good } = req.body
+    Mark.find({
+        $and:[
+            {user: user},
+            {good: good}
+        ]
+    }).then(_res => {
+        if (_res.length === 0) {
+            Mark.create({
+                user: user,
+                good: good
+            }).then((_res) => {
+                res.send(true)
+            })
+        } else {
+            Mark.findByIdAndRemove(_res[0]._id).then(() => {
+                res.send(false)
+            })
+        }
+
+    })
+
+})
+router.get('/checkMark', (req, res) => {
+    const { user, good } = req.query
+    Mark.find({
+        $and:[
+            {user: user},
+            {good: good}
+        ]
+    }).then(_res => {
+        if (_res.length === 0) {
+            res.send(false)
+        } else {
+           res.send(true)
+        }
+
+    })
+})
+router.get('/removeMark', (req, res) => {
+    Mark.remove().then(_res => {
+        res.send(_res)
+    })
+})
+router.get('/markUser', (req, res) => {
+    const good = req.query.good
+    Mark.find({
+        good: good
+    }).sort({ 'created': -1 })
+      .populate('user', 'username avatar desc campus').then(data => {
+        res.send({ result: data })
+    })
+})
+router.get('/markGood', (req, res) => {
+    const user = req.query.user
+    Mark.find({
+        user: user
+    }).sort({ 'created': -1 })
+      .populate('good', '').then(data => {
+        res.send({ result: data })
+    })
+})
+router.get('/queryGood', (req, res) => {
+    const _id = req.query._id
+    Good.findById(_id).populate('user', '').then(_res => {
+        res.send(_res)
+
+    })
 })
 module.exports = router
 
