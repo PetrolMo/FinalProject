@@ -259,7 +259,7 @@ router.get('/markUser', (req, res) => {
     Mark.find({
         good: good
     }).sort({ 'created': -1 })
-      .populate('user', 'username avatar desc campus').then(data => {
+      .populate('user', '').then(data => {
         res.send({ result: data })
     })
 })
