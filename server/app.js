@@ -15,6 +15,7 @@ const certificationRouter = require('./routes/certificate')
 const qiniuRouter = require('./routes/qiniuCloud')
 const appTestRouter = require('./routes/apptest')
 const testRouter = require('./routes/test')
+const messageRouter = require('./routes/message')
 const app = express();
 
 app.use(bodyParser.json());//数据JSON类型
@@ -74,6 +75,7 @@ app.use('/getOss',qiniuRouter);
 app.use('/uploadTest',appTestRouter)
 app.use('/test',testRouter)
 app.use('/cert', certificationRouter)
+app.use('/message', messageRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

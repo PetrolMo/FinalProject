@@ -633,6 +633,11 @@
   "resolved" "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-2.0.0.tgz"
   "version" "2.0.0"
 
+"crypto@^1.0.1":
+  "integrity" "sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig=="
+  "resolved" "https://registry.npmjs.org/crypto/-/crypto-1.0.1.tgz"
+  "version" "1.0.1"
+
 "css-parse@1.0.4":
   "integrity" "sha1-OLBQP7+dqfVOnB29pg4UXHcRe90="
   "resolved" "https://registry.npmjs.org/css-parse/-/css-parse-1.0.4.tgz"
@@ -3175,3 +3180,8 @@
     "cliui" "^2.1.0"
     "decamelize" "^1.0.0"
     "window-size" "0.1.0"
+
+"zlib@^1.0.5":
+  "integrity" "sha1-bnyXL8NxxkWmr7A6sUdp3vEU/MA="
+  "resolved" "https://registry.npmjs.org/zlib/-/zlib-1.0.5.tgz"
+  "version" "1.0.5"
