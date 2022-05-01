@@ -67,6 +67,9 @@
       <el-form :model="form" label-width="100px">
         <el-row>
           <el-col :span="12">
+            <el-form-item label="发布者昵称">
+              {{getDate(form.user.username)}}
+            </el-form-item>
             <el-form-item label="发布时间">
               {{getDate(form.created)}}
             </el-form-item>
