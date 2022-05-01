@@ -5,6 +5,7 @@ const logger = require('morgan')
 const moment = require("moment");
 const mongoose = require('mongoose')
 const Mark = require('../model/mark')
+const Follow = require('../model/flollow')
 /**
  * @api {post} /good 添加商品
  * @apiDescription 添加商品
@@ -101,16 +102,32 @@ router.get('/certList',(req,res) => {
 })
 router.post('/post', (req, res) => {
   const { user, name, campus_id, desc, images } = req.body
-  Certification.findOneAndUpdate({
+  Certification.find({
     user: user
-  },{
-    user: user,
-    name: name,
-    campus_id: campus_id,
-    desc: desc,
-    images: images
-  }).then((_res) => {
-    res.send(true)
+  }).then(_res => {
+    if (_res.length === 0) {
+      Certification.create({
+        user: user,
+        name: name,
+        campus_id: campus_id,
+        desc: desc,
+        images: images
+      }).then(() => {
+        res.send(true)
+      })
+    } else {
+      Certification.findOneAndUpdate({
+        user: user
+      },{
+        user: user,
+        name: name,
+        campus_id: campus_id,
+        desc: desc,
+        images: images
+      }).then((_res) => {
+        res.send(true)
+      })
+    }
   })
 })
 router.get('/delete', (req, res) => {
