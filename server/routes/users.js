@@ -27,16 +27,14 @@ const mockUser = [
 router.get('/',(req,res) => {
   const _id = req.query._id
   User.findById(_id).then(data => {
-    res.send({
-      result: data
-    })
+    res.send(data)
   }).catch(err => {
     res.send(err)
   })
 })
 router.get('/queryUser', (req, res) => {
   const _id = req.query._id
-  User.findById(_id).then(_res => res.send(_res))
+  User.findById(_id).then(_res => res.send(_res)).catch(err => res.send(err))
 })
 // 获取用户列表
 router.get('/userList', (req, res) => {

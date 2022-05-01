@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 
 const CertificateSchema = new mongoose.Schema({
-  user_id: { // 用户id
-    type: String,
-    default: 0,
-  },
-  username: { // 昵称
-    type: String
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
   },
   images: { // 认证图片
     type: Array,

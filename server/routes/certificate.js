@@ -3,6 +3,8 @@ const router = express.Router()
 const Certification = require('../model/certificate')
 const logger = require('morgan')
 const moment = require("moment");
+const mongoose = require('mongoose')
+const Mark = require('../model/mark')
 /**
  * @api {post} /good 添加商品
  * @apiDescription 添加商品
@@ -25,72 +27,7 @@ const mockCertification = [
     images: [],
     status: 0, // 0待审核 1通过 -1拒绝
     desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
-  },
-  {
-    campus_id: '1850956', // 0四平 1嘉定 2彰武 3忽西
-    images: [],
-    status: 0, // 0待审核 1通过 -1拒绝
-    desc: '这是一双球鞋',
-    user_id: '62681f0738a28530516fb0ba',
-    username: '用户',
-    name: '摸一只',
+    user: '626c067ae737c02a12cb18f8'
   }
 ]
 router.get('/mock',(req,res) => {
@@ -118,14 +55,11 @@ router.get('/remove', (req, res) => {
 })
 router.get('/certList',(req,res) => {
   // 筛选条件 商品名称 title 商品价格区间price_range // 校区campus // 发布时间 date_range // 发布者名称 username // 商品状态 status
-  let { page = '1', size = '10' } = req.query
+  let { page = '1', size = '10', username } = req.query
   page = parseInt(page)
   size = parseInt(size)
   const filters = {
     ...req.query
-  }
-  if (req.query.username) {
-    filters.username = { $regex : new RegExp(req.query.username, 'i') }
   }
   if (req.query.date_begin) {
     filters.created = { $gte: moment(req.query.date_begin).startOf('day'), $lt: moment(req.query.date_end).endOf('day')}
@@ -140,6 +74,7 @@ router.get('/certList',(req,res) => {
       .find(filters)
       .skip((page - 1) * size)
       .limit(size)
+      .populate('user', '')
       .sort({ 'created' : -1 })
       .then(data => {
         res.send({
@@ -153,7 +88,7 @@ router.get('/certList',(req,res) => {
         logger(`certification::/list::err:${JSON.stringify(err)}`);
         res.send({
           status: 9001,
-          msg: JSON.stringify(err)
+          msg: err
         })
       })
   }).catch(err => {
@@ -162,6 +97,28 @@ router.get('/certList',(req,res) => {
       status: 9000,
       msg: '查询错误' + err
     })
+  })
+})
+router.post('/post', (req, res) => {
+  const { user, name, campus_id, desc, images } = req.body
+  Certification.findOneAndUpdate({
+    user: user
+  },{
+    user: user,
+    name: name,
+    campus_id: campus_id,
+    desc: desc,
+    images: images
+  }).then((_res) => {
+    res.send(true)
+  })
+})
+router.get('/delete', (req, res) => {
+  const { user } = req.query
+  Certification.findOneAndRemove({
+    user: user
+  }).then((_res) => {
+    res.send(true)
   })
 })
 router.get('/enable', (req, res) => {
@@ -186,6 +143,15 @@ router.get('/disable', (req, res) => {
     })
   })
 })
+router.get('/check', (req, res) => {
+  const user = req.query.user
+  Certification.find({
+    user: new mongoose.Types.ObjectId(user)
+  }).populate('user', '').then(_res => {
+   res.send(_res)
+  })
+})
+
 module.exports = router
 
 
