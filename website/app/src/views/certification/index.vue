@@ -40,7 +40,7 @@
               <el-tag v-else type="danger">已拒绝</el-tag>
             </span>
             <span v-else-if="item.key === 'username'">
-              {{getDate(scope.row.user.username)}}
+              {{scope.row.user.username}}
             </span>
             <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
