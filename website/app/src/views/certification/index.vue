@@ -39,6 +39,9 @@
               <el-tag v-else-if="scope.row.status === 1" type="success">已通过</el-tag>
               <el-tag v-else type="danger">已拒绝</el-tag>
             </span>
+            <span v-else-if="item.key === 'username'">
+              {{getDate(scope.row.user.username)}}
+            </span>
             <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
             </span>
@@ -64,9 +67,6 @@
       <el-form :model="form" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="发布者昵称">
-              <span>{{ form.username }}</span>
-            </el-form-item>
             <el-form-item label="发布时间">
               {{getDate(form.created)}}
             </el-form-item>
@@ -78,13 +78,32 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="商品状态">
+            <el-form-item label="认证状态">
               <el-tag v-if="form.status === 0">待审核</el-tag>
               <el-tag v-else-if="form.status === 1" type="success">已通过</el-tag>
               <el-tag v-else type="danger">已拒绝</el-tag>
             </el-form-item>
             <el-form-item label="认证描述">
               {{form.desc}}
+            </el-form-item>
+            <el-form-item label="认证图片">
+              <el-upload
+                action="#"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                multiple
+                accept="image/png, image/jpeg, image/jpg"
+                :file-list="form.images"
+                :disabled="true"
+                :limit="9"
+              >
+                <template #default v-if="isEdit">
+                  <span style="font-size: 28px;">+</span>
+                </template>
+              </el-upload>
+              <el-dialog v-model="dialogVisible">
+                <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
+              </el-dialog>
             </el-form-item>
           </el-col>
         </el-row>

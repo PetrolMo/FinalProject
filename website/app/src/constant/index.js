@@ -102,7 +102,6 @@ export const goodQuery = {
   status: ''
 }
 export const certQuery = {
-  username: '',
   campus_id: '',
   date_range: '',
   price_range: '',
@@ -242,6 +241,12 @@ export const goodColumns = [
   }
 ]
 export const certColumns = [
+  {
+    title: '认证ID',
+    key: '_id',
+    width: 140,
+    align: 'center'
+  },
   {
     title: '发起者',
     key: 'username',
