@@ -188,7 +188,7 @@ router.get('/queryMsg', (req, res) => {
         good: req.query.good
       })
       .sort({ 'like_count': -1 })
-      .populate('user', 'username avatar').then(data => {
+      .populate('user', '').then(data => {
         res.send({ result: data })
     })
 })
