@@ -76,9 +76,6 @@
             <el-form-item label="姓名">
               <span>{{ form.name }}</span>
             </el-form-item>
-            <el-form-item label="学号">
-              <span>{{ form.campus_id}}</span>
-            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="认证状态">
@@ -89,27 +86,31 @@
             <el-form-item label="认证描述">
               {{form.desc}}
             </el-form-item>
-            <el-form-item label="认证图片">
-              <el-upload
-                action="#"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview"
-                multiple
-                accept="image/png, image/jpeg, image/jpg"
-                :file-list="form.images"
-                :disabled="true"
-                :limit="9"
-              >
-                <template #default v-if="isEdit">
-                  <span style="font-size: 28px;">+</span>
-                </template>
-              </el-upload>
-              <el-dialog v-model="dialogVisible">
-                <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
-              </el-dialog>
+            <el-form-item label="学号">
+              <span>{{ form.campus_id}}</span>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="认证图片">
+          <el-upload
+            action="#"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            multiple
+            accept="image/png, image/jpeg, image/jpg"
+            :file-list="form.images"
+            :disabled="true"
+            :limit="9"
+          >
+            <template #default v-if="isEdit">
+              <span style="font-size: 28px;">+</span>
+            </template>
+          </el-upload>
+          <el-dialog v-model="dialogVisible">
+            <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
+          </el-dialog>
+        </el-form-item>
+
         <div style='display: flex; justify-content: center;' v-if='form.status === 0'>
           <el-button type='success' @click='enable(form._id)'>审核通过</el-button>
           <el-button type='danger' @click='disable(form._id)'>审核拒绝</el-button>
