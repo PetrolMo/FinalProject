@@ -87,7 +87,25 @@ const routes = [
           title: '用户列表',
           requireAuth: true
         },
-        component:() => import('@/views/user/user-list/index')
+        component:() => import('@/views/user/user-list/index'),
+        children: [
+          {
+            path: '/detail',
+            name: 'user-detail',
+            meta: {
+              title: '用户详情'
+            },
+            component:() => import('@/views/user/user-list/detail'),
+          },
+          {
+            path: '/edit',
+            name: 'user-edit',
+            meta: {
+              title: '编辑用户'
+            },
+            component:() => import('@/views/user/user-list/edit'),
+          }
+        ]
       }
     ]
   },
@@ -109,7 +127,25 @@ const routes = [
           title: '商品列表',
           requireAuth: true
         },
-        component:() => import('@/views/good/good-list/index')
+        component:() => import('@/views/good/good-list/index'),
+        children: [
+          {
+            path: '/good-detail',
+            name: 'good-detail',
+            meta: {
+              title: '商品详情'
+            },
+            component:() => import('@/views/good/good-list/detail'),
+          },
+          {
+            path: '/good-edit',
+            name: 'good-edit',
+            meta: {
+              title: '编辑商品'
+            },
+            component:() => import('@/views/good/good-list/edit'),
+          }
+        ]
       }
     ]
   },

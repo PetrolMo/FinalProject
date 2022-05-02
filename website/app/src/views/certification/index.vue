@@ -17,7 +17,6 @@
           <el-date-picker
             v-model="tableData.query.date_range"
             type="daterange"
-            :shortcuts="shortcuts"
             style="width: 300px"
             range-separator="至"
             start-placeholder="开始日期"
@@ -31,7 +30,7 @@
       </el-form>
     </el-card>
     <el-card style="margin-top: 20px">
-      <el-table empty-text="暂无数据" :data="tableData.list">
+      <el-table size="small" empty-text="暂无数据" :data="tableData.list">
         <el-table-column :width="item.width" :align="item.align" v-for="item in columns" :key="item.key" :prop="item.key" :label="item.title">
           <template #default="scope">
             <span v-if="item.key === 'status'">

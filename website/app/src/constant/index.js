@@ -168,8 +168,8 @@ export const userColumns = [
   {
     title: "操作",
     key: "operation",
-    width: 240,
-    align: "left"
+    width: 220,
+    align: "center"
   },
 ]
 export const goodColumns = [
@@ -281,6 +281,106 @@ export const certColumns = [
     title: '认证描述',
     key: 'desc',
     width: 150,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    width: 250,
+    align: 'center'
+  }
+]
+export const replyColumns = [
+  {
+    title: '留言ID',
+    key: '_id',
+    width: 160,
+    align: 'center'
+  },
+  {
+    title: '发布者',
+    key: 'username',
+    width: 200,
+    align: 'center'
+  },
+  {
+    title: '发布者头像',
+    key: 'avatar',
+    width: 80,
+    align: 'center'
+  },
+  {
+    title: '留言时间',
+    key: 'createdAt',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '留言内容',
+    key: 'message',
+    width: 200,
+    align: 'center'
+  },
+  {
+    title: '点赞数',
+    key: 'like_count',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    width: 250,
+    align: 'center'
+  }
+]
+export const goodColumns2 = [
+  {
+    title:"商品id",
+    key:"_id",
+    align:"center",
+    width: 150,
+  },
+  {
+    title: '发布时间',
+    key: 'createdAt',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '标题',
+    key: 'title',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '商品描述',
+    key: 'desc',
+    width: 150,
+    align: 'center'
+  },
+  {
+    title: '商品状态',
+    key: 'status',
+    width: 100,
+    align: 'center'
+  },
+  {
+    title: '价格',
+    key: 'price',
+    width: 120,
+    align: 'center'
+  },
+  {
+    title: '原价',
+    key: 'origin_price',
+    width: 120,
+    align: 'center'
+  },
+  {
+    title: '校区',
+    key: 'campus',
+    width: 100,
     align: 'center'
   },
   {

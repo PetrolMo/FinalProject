@@ -10,5 +10,8 @@ const app = createApp(App);
 app.config.globalProperties.$ajax = request
 app.use(Router);
 app.use(Store);
-app.use(ElementPlus,{locale: zhCn});
+app.use(ElementPlus, {
+  locale: zhCn,
+  size: 'small'
+})
 app.mount('#app');

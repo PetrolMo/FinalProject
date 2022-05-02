@@ -12,9 +12,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const goodRouter = require('./routes/good');
 const certificationRouter = require('./routes/certificate')
-const qiniuRouter = require('./routes/qiniuCloud')
-const appTestRouter = require('./routes/apptest')
-const testRouter = require('./routes/test')
 const messageRouter = require('./routes/message')
 const app = express();
 
@@ -71,9 +68,6 @@ app.use('/images',express.static('./public/images'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/good',goodRouter);
-app.use('/getOss',qiniuRouter);
-app.use('/uploadTest',appTestRouter)
-app.use('/test',testRouter)
 app.use('/cert', certificationRouter)
 app.use('/message', messageRouter)
 // catch 404 and forward to error handler

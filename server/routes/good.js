@@ -3,10 +3,8 @@ const router = express.Router()
 const Good = require('../model/goodList')
 const logger = require('morgan')
 const moment = require("moment");
-const User = require("../model/user");
 const Reply = require('../model/reply')
 const Mark = require('../model/mark')
-const Follow = require('../model/flollow')
 /**
  * @api {post} /good 添加商品
  * @apiDescription 添加商品

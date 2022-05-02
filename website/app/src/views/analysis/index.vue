@@ -111,6 +111,7 @@
       <el-table
           ref="multipleTableRef"
           :data="tableData"
+          size="small"
           style="width: 100%"
           @selection-change="handleSelectionChange"
       >

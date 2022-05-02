@@ -1,76 +1,77 @@
 <template>
   <div class="user">
-    <el-card>
-      <el-form inline inline-message size="small" label-width="80" :model="tableData.query">
-        <el-form-item label="发布者">
-          <el-input placeholder="请输入发布者用户名" v-model="tableData.query.username"></el-input>
-        </el-form-item>
-        <el-form-item label="商品标题">
-          <el-input placeholder="请输入商品标题" v-model="tableData.query.title"></el-input>
-        </el-form-item>
-        <el-form-item label="商品状态">
-          <el-select style="width: 150px" v-model="tableData.query.status" placeholder="请选择商品状态">
-            <el-option v-for="item in statusOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="校区">
-          <el-select v-model="tableData.query.campus" placeholder="请选择校区">
-            <el-option v-for="item in  [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="发布时间">
-          <el-date-picker
+    <router-view v-if="$route.matched.length > 2"></router-view>
+    <div v-else>
+      <el-card>
+        <el-form inline inline-message size="small" label-width="80" :model="tableData.query">
+          <el-form-item label="发布者">
+            <el-input placeholder="请输入发布者用户名" v-model="tableData.query.username"></el-input>
+          </el-form-item>
+          <el-form-item label="商品标题">
+            <el-input placeholder="请输入商品标题" v-model="tableData.query.title"></el-input>
+          </el-form-item>
+          <el-form-item label="商品状态">
+            <el-select style="width: 150px" v-model="tableData.query.status" placeholder="请选择商品状态">
+              <el-option v-for="item in statusOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="校区">
+            <el-select v-model="tableData.query.campus" placeholder="请选择校区">
+              <el-option v-for="item in  [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="发布时间">
+            <el-date-picker
               v-model="tableData.query.date_range"
               type="daterange"
-              :shortcuts="shortcuts"
               style="width: 300px"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-          />
-        </el-form-item>
-        <el-form-item label="价格区间">
-          <el-select v-model="tableData.query.price_range" placeholder="请选择价格区间">
-            <el-option v-for="item in priceOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label-width="0">
-          <el-button type="info" style="margin-left: 10px" @click="clear">清空</el-button>
-          <el-button type="primary" @click="search">查询</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
-    <el-card style="margin-top: 20px">
-      <el-table empty-text="暂无数据" :data="tableData.list">
-        <el-table-column :width="item.width" :align="item.align" v-for="item in columns" :key="item.key" :prop="item.key" :label="item.title">
-          <template #default="scope">
+            />
+          </el-form-item>
+          <el-form-item label="价格区间">
+            <el-select v-model="tableData.query.price_range" placeholder="请选择价格区间">
+              <el-option v-for="item in priceOptions" :key="item.label" :value="item.value" :label="item.label"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label-width="0">
+            <el-button type="info" style="margin-left: 10px" @click="clear">清空</el-button>
+            <el-button type="primary" @click="search">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
+      <el-card style="margin-top: 20px">
+        <el-table size="small" empty-text="暂无数据" :data="tableData.list">
+          <el-table-column :width="item.width" :align="item.align" v-for="item in columns" :key="item.key" :prop="item.key" :label="item.title">
+            <template #default="scope">
             <span v-if="item.key === 'status'">
               <el-tag v-if="scope.row.status === 0" type="danger">禁用</el-tag>
               <el-tag v-else type="success">启用</el-tag>
             </span>
-            <span v-else-if="item.key === 'username'">
+              <span v-else-if="item.key === 'username'">
               {{scope.row.user?.username || ''}}
             </span>
-            <span v-else-if="item.key === 'user_id'">
+              <span v-else-if="item.key === 'user_id'">
               {{scope.row.user?._id || ''}}
             </span>
-            <span v-else-if="item.key === 'createdAt'">
+              <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
             </span>
-            <span v-else-if="item.key === 'campus'">
+              <span v-else-if="item.key === 'campus'">
                {{campusOptions.find(item => item.value === scope.row.campus).label}}
             </span>
-            <span v-else-if="item.key === 'operation'">
+              <span v-else-if="item.key === 'operation'">
               <el-button type="default" size="small" @click="viewInfo(scope.row)">查看</el-button>
               <el-button type="primary" size="small" @click="editInfo(scope.row)">编辑</el-button>
               <el-button type="success" size="small" v-if="scope.row.status === 0" @click="enable(scope.row._id)">启用</el-button>
               <el-button type="danger" size="small" v-if="scope.row.status === 1" @click="disable(scope.row._id)">禁用</el-button>
             </span>
-            <span v-else>{{scope.row[item.key]}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
+              <span v-else>{{scope.row[item.key]}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
           style="float: right; margin: 10px 0"
           v-model:currentPage="tableData.query.page"
           v-model:page-size="tableData.query.size"
@@ -79,87 +80,89 @@
           :total="tableData.query.total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-      />
-    </el-card>
-    <el-dialog v-model="openModal" :title="isEdit? '编辑商品信息' : '查看商品信息'">
-      <el-form :model="form" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="发布者名称">
-              <el-input :disabled="!isEdit" v-model="form.user.username" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="发布者id">
-              <el-input :disabled="!isEdit" v-model="form.user._id" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="发布时间">
-              <el-date-picker :disabled="true" style="width: 150px" v-model="form.created" type="date" placeholder="选择日期" />
-            </el-form-item>
-            <el-form-item label="校区">
-              <el-select :disabled="!isEdit" style="width: 150px" v-model="form.campus" placeholder="请选择校区">
-                <el-option v-for="item in  [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="商品介绍">
-              <el-input :disabled="!isEdit" v-model="form.desc"
-                        :rows="4"
-                        :max="300"
-                        :show-word-limit="true"
-                        type="textarea" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="商品状态">
-              <el-tag v-if="form.status === 0" type="danger">禁用</el-tag>
-              <el-tag v-else type="success">启用</el-tag>
-            </el-form-item>
-            <el-form-item label="商品标题">
-              <el-input :disabled="!isEdit" v-model="form.title" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="商品原价">
-              <el-input :disabled="!isEdit" v-model="form.origin_price" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="商品价格">
-              <el-input :disabled="!isEdit" v-model="form.price" style="width: 200px" autocomplete="off" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="商品图片">
-        <el-upload
-            action="#"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-change="handleChange"
-            :before-upload="handleUpload"
-            multiple
-            accept="image/png, image/jpeg, image/jpg"
-            :file-list="form.images"
-            :disabled="!isEdit"
-            :limit="9"
-        >
-          <template #default v-if="isEdit">
-            <span style="font-size: 28px;">+</span>
-          </template>
-        </el-upload>
-        <el-dialog v-model="dialogVisible">
-          <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
-        </el-dialog>
-        </el-form-item>
-      </el-form>
-      <template #footer>
+        />
+      </el-card>
+      <el-dialog v-model="openModal" :title="isEdit? '编辑商品信息' : '查看商品信息'">
+        <el-form :model="form" label-width="100px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="发布者名称">
+                <el-input :disabled="!isEdit" v-model="form.user.username" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="发布者id">
+                <el-input :disabled="!isEdit" v-model="form.user._id" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="发布时间">
+                <el-date-picker :disabled="true" style="width: 150px" v-model="form.created" type="date" placeholder="选择日期" />
+              </el-form-item>
+              <el-form-item label="校区">
+                <el-select :disabled="!isEdit" style="width: 150px" v-model="form.campus" placeholder="请选择校区">
+                  <el-option v-for="item in  [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="商品介绍">
+                <el-input :disabled="!isEdit" v-model="form.desc"
+                          :rows="4"
+                          :max="300"
+                          :show-word-limit="true"
+                          type="textarea" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="商品状态">
+                <el-tag v-if="form.status === 0" type="danger">禁用</el-tag>
+                <el-tag v-else type="success">启用</el-tag>
+              </el-form-item>
+              <el-form-item label="商品标题">
+                <el-input :disabled="!isEdit" v-model="form.title" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="商品原价">
+                <el-input :disabled="!isEdit" v-model="form.origin_price" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="商品价格">
+                <el-input :disabled="!isEdit" v-model="form.price" style="width: 200px" autocomplete="off" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="商品图片">
+            <el-upload
+              action="#"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-change="handleChange"
+              :before-upload="handleUpload"
+              multiple
+              accept="image/png, image/jpeg, image/jpg"
+              :file-list="form.images"
+              :disabled="!isEdit"
+              :limit="9"
+            >
+              <template #default v-if="isEdit">
+                <span style="font-size: 28px;">+</span>
+              </template>
+            </el-upload>
+            <el-dialog v-model="dialogVisible">
+              <img style="width: 100%;" :src="dialogImageUrl" alt="Preview Image" />
+            </el-dialog>
+          </el-form-item>
+        </el-form>
+        <template #footer>
       <span class="dialog-footer">
         <el-button @click="openModal = false">取消</el-button>
         <el-button v-if="isEdit" type="primary" @click="submit"
         >确认</el-button
         >
       </span>
-      </template>
-    </el-dialog>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { reactive, ref } from "vue";
+import { useRoute, useRouter } from 'vue-router'
 import OSS from 'ali-oss'
 import { genderOptions, campusOptions, goodQuery, goodColumns, statusOptions, priceOptions } from "../../../constant";
 import {deepCopy, getAge, removeProperty} from "../../../utils";
@@ -169,6 +172,7 @@ import moment from "moment";
 export default {
   name: "GoodList",
   setup () {
+    const router = useRouter()
     let client = {}
     function getSts() {
       return new Promise(resolve => {
@@ -277,17 +281,33 @@ export default {
     let isEdit = ref(true)
     let form = ref({})
     function editInfo (data) {
-      isEdit.value = true
-      form.value = deepCopy(data)
-      openModal.value = true
+      // isEdit.value = true
+      // form.value = deepCopy(data)
+      // openModal.value = true
+      router.push(
+        {
+          name: 'good-edit',
+          query:
+            {
+              _id: data._id
+            }
+        })
     }
     function viewInfo (data) {
-      isEdit.value = false
-      form.value = deepCopy(data)
-      openModal.value = true
+      // isEdit.value = false
+      // form.value = deepCopy(data)
+      // openModal.value = true
+      router.push(
+        {
+          name: 'good-detail',
+          query:
+            {
+              _id: data._id
+            }
+        })
     }
     function submit () {
-      form.user = form.user_id
+      form.value.user = form.value.user_id
       axios.post('/good/edit', { ...form.value }).then(() => {
         openModal.value = false
         ElNotification({
