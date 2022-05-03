@@ -669,7 +669,7 @@ export function generateUrl (url) {
   return baseUrl + url
 }
 
-export function formaterMoney (val, fixed = 0) {
+export function formatMoney (val, fixed = 0) {
   const str = +val === val && fixed !== 'auto' ? val.toFixed(fixed) : val + ''
   const res = str.split('').reverse().join('').replace(/(\d{3}(?=\d)(?!\d+\.|$))/g, '$1,').split('').reverse().join('')
 

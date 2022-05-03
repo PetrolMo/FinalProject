@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "nyc -a --reporter=clover mocha --recursive"
   },
   "dependencies": {
     "ali-oss": "^6.17.1",

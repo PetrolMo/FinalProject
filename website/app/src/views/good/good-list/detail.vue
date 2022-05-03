@@ -105,7 +105,7 @@
               {{scope.row.user?.username || ''}}
             </span>
               <span v-else-if="item.key === 'avatar'">
-              <el-avatar :size="50" fit="fill" :src="scope.row.user.avata" />
+              <el-avatar :size="50" fit="fill" :src="scope.row.user.avatar" />
             </span>
               <span v-else-if="item.key === 'createdAt'">
               {{getDate(scope.row.created)}}
