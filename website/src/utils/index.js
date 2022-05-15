@@ -1,7 +1,7 @@
 //
 import _ from 'underscore'
 import moment from 'moment'
-import store from '../store/index'
+import store from '../store'
 
 let debug = false
 const locStrg = window.localStorage || null

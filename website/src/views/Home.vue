@@ -96,7 +96,7 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import "src/common/style/common";
+@import "..common/style/common";
   .chartsArea{
     width: 100vw;
     height: 80vh;
