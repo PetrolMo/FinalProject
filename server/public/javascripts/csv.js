@@ -1,5 +1,5 @@
 function csvToObject(csvString){
-  console.log(csvArray)
+  // console.log(csvArray)
   let csvArray = csvString.split("\r\n");
   let res = [];
   //获取所有专业
