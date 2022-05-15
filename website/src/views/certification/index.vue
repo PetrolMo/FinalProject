@@ -130,7 +130,6 @@ import moment from "moment";
 export default {
   name: "CertificationList",
   setup () {
-    let client = {}
     let tableData = reactive({
       query: deepCopy(certQuery),
       list: []
