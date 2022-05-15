@@ -1,5 +1,5 @@
 <template>
-  <div class="user-detail">
+  <div class="good-edit" key="good-edit">
     <el-button type="primary" @click="$router.replace('/good-list')">返回列表</el-button>
     <el-card style="width: 100%; margin-top: 20px">
       <template #header>
@@ -11,34 +11,34 @@
           <el-tag v-else type="success">启用</el-tag>
         </el-form-item>
         <el-form-item label="商品ID">
-          <el-input :disabled="true" v-model="form._id" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form._id" style="width: 200px" autocomplete="off" />
 
         </el-form-item>
         <el-form-item v-if="form.user" label="发布者">
-          <el-input :disabled="true" v-model="form.user.username" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form.user.username" style="width: 200px" autocomplete="off" />
         </el-form-item>
         <el-form-item v-if="form.user"  label="发布者id">
-          <el-input :disabled="true" v-model="form.user._id" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form.user._id" style="width: 200px" autocomplete="off" />
         </el-form-item>
         <el-form-item label="发布时间">
-          <el-date-picker :disabled="true" style="width: 150px" v-model="form.created" type="date" placeholder="选择日期" />
+          <el-date-picker disabled style="width: 150px" v-model="form.created" type="date" placeholder="选择日期" />
         </el-form-item>
         <el-form-item label="校区">
-          <el-select :disabled="true" style="width: 150px" v-model="form.campus" placeholder="请选择校区">
+          <el-select disabled style="width: 150px" v-model="form.campus" placeholder="请选择校区">
             <el-option v-for="item in  [...campusOptions].splice(1, 4)" :key="item.label" :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="商品原价">
-          <el-input :disabled="true" v-model="form.origin_price" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form.origin_price" style="width: 200px" autocomplete="off" />
         </el-form-item>
         <el-form-item label="商品价格">
-          <el-input :disabled="true" v-model="form.price" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form.price" style="width: 200px" autocomplete="off" />
         </el-form-item>
         <el-form-item label="商品标题">
-          <el-input :disabled="true" v-model="form.title" style="width: 200px" autocomplete="off" />
+          <el-input disabled v-model="form.title" style="width: 200px" autocomplete="off" />
         </el-form-item>
         <el-form-item label="商品介绍">
-          <el-input :disabled="true" v-model="form.desc"
+          <el-input disabled v-model="form.desc"
                     :rows="4"
                     :max="300"
                     :show-word-limit="true"
@@ -55,11 +55,11 @@
           multiple
           accept="image/png, image/jpeg, image/jpg"
           :file-list="form.images"
-          :disabled="true"
+          disabled
           :limit="9"
         >
           <template #default>
-            <span v-if="false" style="font-size: 28px;">+</span>
+            <span style="font-size: 28px;">+</span>
           </template>
         </el-upload>
         <el-dialog v-model="dialogVisible">
@@ -68,31 +68,31 @@
       </div>
       <el-button type="primary" style="float: right;margin: 10px 50px 20px 0" @click="submit">去编辑</el-button>
     </el-card>
-    <el-tabs type="border-card" v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs type="border-card" v-model="activeName" style="margin-top: 20px" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane lazy label="收藏者列表" name="mark">
         <el-table size="small" empty-text="暂无数据" :data="tableData.list1">
-          <el-table-column :width="item.width" :align="item.align" v-for="item in userColumns" :key="item.key + 'mark'" :prop="item.key" :label="item.title">
+          <el-table-column :width="item.width" :align="item.align" v-for="item in userColumns" :key="item.key + 'follow'" :prop="item.key" :label="item.title">
             <template #default="scope">
             <span v-if="item.key === 'age'">
               {{getAge(scope.row.birthday)[0]}}
             </span>
               <span v-else-if="item.key === 'avatar'">
-              <el-avatar :size="50" fit="fill" :src="scope.row.avatar" />
+              <el-avatar :size="50" fit="fill" :src="scope.row.user.avatar" />
             </span>
               <span v-else-if="item.key === 'status'">
               <el-tag v-if="scope.row.status === 0" type="danger">禁用</el-tag>
               <el-tag v-else type="success">启用</el-tag>
             </span>
               <span v-else-if="item.key === 'gender'">
-              {{genderOptions.find(item => item.value === scope.row.gender).label}}
+              {{genderOptions.find(item => item.value === scope.row.user.gender).label}}
             </span>
               <span v-else-if="item.key === 'campus'">
-               {{campusOptions.find(item => item.value === scope.row.campus).label}}
+               {{campusOptions.find(item => item.value === scope.row.user.campus).label}}
             </span>
               <span v-else-if="item.key === 'operation'">
-              <el-button type="primary" @click="viewUser(scope.row._id)">查看</el-button>
+              <el-button type="primary" @click="viewUser(scope.row.user._id)">查看</el-button>
             </span>
-              <span v-else>{{scope.row[item.key]}}</span>
+              <span v-else>{{scope.row.user[item.key]}}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -130,6 +130,7 @@ import {campusOptions, genderOptions, statusOptions, userColumns, replyColumns} 
 import {deepCopy, getAge} from "../../../utils";
 import moment from "moment";
 import OSS from "ali-oss";
+import {ElNotification} from "element-plus";
 
 export default {
   name: "detail",
@@ -182,7 +183,8 @@ export default {
       queryTableData(activeName.value)
     }
     function submit () {
-      router.push({
+      // form.value.user = form.value.user_id
+      router.replace({
         name: 'good-edit',
         query: {
           _id: _id
@@ -198,8 +200,8 @@ export default {
               good: _id
             }
           }).then(res => {
-            console.log(res)
-            tableData.list1 = res.data.result.map(item => item.user)
+            console.log(res.data)
+            tableData.list1 = res.data.result
           })
           break
         case 'reply':
@@ -209,7 +211,7 @@ export default {
               good: _id
             }
           }).then(res => {
-            console.log(res)
+            console.log(res.data)
             tableData.list2 = res.data.result
           })
           break
@@ -294,13 +296,14 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-.user-detail {
+<style lang="less">
+.good-edit {
   width: 100%;
   height: 100%;
+  .el-upload {
+    display: none;
+  }
 }
-</style>
-<style lang="less">
 .demo-tabs {
   margin-top: 20px;
 }

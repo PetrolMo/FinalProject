@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="certification">
     <el-card>
       <el-form inline inline-message size="small" label-width="80" :model="tableData.query">
         <el-form-item label="发布者">
@@ -67,7 +67,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="发布者昵称">
-              {{getDate(form.user.username)}}
+              {{form.user.username}}
             </el-form-item>
             <el-form-item label="发布时间">
               {{getDate(form.created)}}
@@ -101,7 +101,7 @@
             :disabled="true"
             :limit="9"
           >
-            <template #default v-if="isEdit">
+            <template #default>
               <span style="font-size: 28px;">+</span>
             </template>
           </el-upload>
@@ -285,9 +285,12 @@ export default {
 }
 </script>
 
-<style>
-.user {
+<style lang="less">
+.certification {
   margin-bottom: 50px;
+  .el-upload {
+    display: none;
+  }
 }
 </style>
 

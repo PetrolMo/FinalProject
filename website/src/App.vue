@@ -14,7 +14,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style lang="less">
 html, body {
   width: 100vw;
   height: 100vh;
@@ -27,5 +27,8 @@ html, body {
 #nprogress .bar {
   /*自定义进度条颜色*/
   background: #29b6f6 !important;
+}
+.is-ready, .is-success {
+  transition: none !important;
 }
 </style>

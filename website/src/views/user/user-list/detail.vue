@@ -206,9 +206,9 @@ export default {
       })
     }
     init()
-    function init() {
-      queryUserInfo()
-      queryTableData('post')
+    async function init() {
+      await queryUserInfo()
+      await queryTableData('post')
       getSts().then(res => {
         client = new OSS({
           // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
@@ -246,7 +246,7 @@ export default {
       switch (value) {
         case 'post':
           // 获取用户发布的商品
-          axios.get('/good/postList', {
+          return axios.get('/good/postList', {
             params: {
               user_id: _id
             }
@@ -254,10 +254,9 @@ export default {
             console.log(res.data)
             tableData.list1 = res.data
           })
-          break
         case 'mark':
           // 获取用户收藏的商品列表
-          axios.get('/good/markGood', {
+          return axios.get('/good/markGood', {
             params: {
               user: _id
             }
@@ -265,10 +264,9 @@ export default {
             console.log(res.data.result)
             tableData.list2 = res.data.result.map(item => item.good)
           })
-          break
         case 'follow':
           // 获取用户的关注列表
-          axios.get('/users/followList', {
+          return axios.get('/users/followList', {
             params: {
               user: _id
             }
@@ -276,10 +274,9 @@ export default {
             console.log(res.data)
             tableData.list3 = res.data.map(item => item.follow)
           })
-          break
         case 'fan':
           // 获取用户的粉丝列表
-          axios.get('/users/fanList', {
+          return axios.get('/users/fanList', {
             params: {
               user: _id
             }
@@ -287,11 +284,10 @@ export default {
             console.log(res)
             tableData.list4 = res.data.map(item => item.user)
           })
-          break
       }
     }
     function queryUserInfo () {
-      axios.get('/users/queryUser', {
+      return axios.get('/users/queryUser', {
         params: {
           _id: _id
         }
@@ -369,7 +365,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .user-detail {
   width: 100%;
   height: 100%;

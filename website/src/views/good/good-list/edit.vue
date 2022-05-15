@@ -1,5 +1,5 @@
 <template>
-  <div class="user-detail">
+  <div class="user-detail" key="good-edit">
     <el-button type="primary" @click="$router.replace('/good-list')">返回列表</el-button>
     <el-card style="width: 100%; margin-top: 20px">
       <template #header>
@@ -57,6 +57,7 @@
           :file-list="form.images"
           :disabled="false"
           :limit="9"
+          class="upload"
         >
           <template #default>
             <span style="font-size: 28px;">+</span>
@@ -77,22 +78,22 @@
               {{getAge(scope.row.birthday)[0]}}
             </span>
               <span v-else-if="item.key === 'avatar'">
-              <el-avatar :size="50" fit="fill" :src="scope.row.avatar" />
+              <el-avatar :size="50" fit="fill" :src="scope.row.user.avatar" />
             </span>
               <span v-else-if="item.key === 'status'">
               <el-tag v-if="scope.row.status === 0" type="danger">禁用</el-tag>
               <el-tag v-else type="success">启用</el-tag>
             </span>
               <span v-else-if="item.key === 'gender'">
-              {{genderOptions.find(item => item.value === scope.row.gender).label}}
+              {{genderOptions.find(item => item.value === scope.row.user.gender).label}}
             </span>
               <span v-else-if="item.key === 'campus'">
-               {{campusOptions.find(item => item.value === scope.row.campus).label}}
+               {{campusOptions.find(item => item.value === scope.row.user.campus).label}}
             </span>
               <span v-else-if="item.key === 'operation'">
-              <el-button type="primary" @click="viewUser(scope.row._id)">查看</el-button>
+              <el-button type="primary" @click="viewUser(scope.row.user._id)">查看</el-button>
             </span>
-              <span v-else>{{scope.row[item.key]}}</span>
+              <span v-else>{{scope.row.user[item.key]}}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -189,7 +190,7 @@ export default {
           type: 'success',
           title: '修改成功'
         })
-        router.push({
+        router.replace({
           name: 'good-detail',
           query: {
             _id: _id
