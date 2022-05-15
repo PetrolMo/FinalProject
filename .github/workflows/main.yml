@@ -25,4 +25,6 @@ jobs:
             npm install
             npm run build
             nginx -s reload
+            cd /root/FinalProject/server
+            npm install
             pm2 restart all
