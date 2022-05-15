@@ -1,4 +1,4 @@
-import axios from "website/src/utils/axios";
+import axios from "axios";
 import router from "@/router/index";
 import store from '@/store/index'
 import config from '@/config/index'
